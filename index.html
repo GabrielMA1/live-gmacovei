@@ -6,36 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags -->
-    <title>Gabriel Macovei | Digital Strategy & Marketing Expert</title>
-    <meta name="title" content="Gabriel Macovei | Digital Strategy & Marketing Expert" />
-    <meta name="description" content="Gabriel Macovei - Entrepreneur specializing in digital excellence through RielArt (Web Development, Branding, Social Media) and local advertising power through Spotix (Postcard Marketing)." />
-    <meta name="keywords" content="Gabriel Macovei, RielArt, Spotix, Web Development, Brand Identity, Social Media Marketing, Local Advertising, Postcard Marketing, Digital Marketing, Entrepreneur" />
+    <title>Gabriel Macovei | Entrepreneur & Digital Strategist | GMACOVEI.COM</title>
+    <meta name="title" content="Gabriel Macovei | Entrepreneur & Digital Strategist | GMACOVEI.COM" />
+    <meta name="description" content="Gabriel Macovei - Entrepreneur, digital strategist, and marketing innovator. Founder of RielArt (Digital Agency) and Spotix (Local Marketing). Let's build something amazing together." />
+    <meta name="keywords" content="Gabriel Macovei, GMACOVEI, RielArt, Spotix, Digital Agency, Web Development, Brand Identity, Social Media Marketing, Local Advertising, Postcard Marketing, Romania Entrepreneur" />
     <meta name="author" content="Gabriel Macovei" />
     <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://GMACOVEI.com" />
+    <link rel="canonical" href="https://gmacovei.com" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://GMACOVEI.com" />
-    <meta property="og:title" content="GMACOVEI | Gabriel Macovei - Digital Entrepreneur" />
-    <meta property="og:description" content="Digital Excellence & Local Marketing. Building brands through RielArt and Spotix." />
-    <meta property="og:image" content="https://GMACOVEI.com/og-image.jpg" />
+    <meta property="og:url" content="https://gmacovei.com" />
+    <meta property="og:title" content="Gabriel Macovei | Entrepreneur & Digital Strategist" />
+    <meta property="og:description" content="Entrepreneur, digital strategist, and marketing innovator. Founder of RielArt and Spotix. Let's build something amazing together." />
+    <meta property="og:image" content="https://gmacovei.com/og-image.jpg" />
+    <meta property="og:site_name" content="GMACOVEI Portfolio" />
+    <meta property="og:locale" content="en_US" />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://GMACOVEI.com" />
-    <meta property="twitter:title" content="GMACOVEI | Gabriel Macovei - Digital Entrepreneur" />
-    <meta property="twitter:description" content="Digital Excellence & Local Marketing. Building brands through RielArt and Spotix." />
-    <meta property="twitter:image" content="https://GMACOVEI.com/og-image.jpg" />
+    <meta property="twitter:url" content="https://gmacovei.com" />
+    <meta property="twitter:title" content="Gabriel Macovei | Entrepreneur & Digital Strategist" />
+    <meta property="twitter:description" content="Entrepreneur, digital strategist, and marketing innovator. Founder of RielArt and Spotix." />
+    <meta property="twitter:image" content="https://gmacovei.com/og-image.jpg" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>GM</text></svg>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     
     <!-- Theme Color -->
-    <meta name="theme-color" content="#0a0c10" />
-    <meta name="msapplication-TileColor" content="#0a0c10" />
+    <meta name="theme-color" content="#0A0A0C" />
+    <meta name="msapplication-TileColor" content="#0A0A0C" />
     
     <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,8 +55,13 @@
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Gabriel Macovei",
-      "url": "https://GMACOVEI.com",
-      "jobTitle": "Digital Entrepreneur & Marketing Professional",
+      "url": "https://gmacovei.com",
+      "jobTitle": "Entrepreneur & Digital Strategist",
+      "description": "Founder of RielArt Digital Agency and Spotix Local Marketing",
+      "sameAs": [
+        "https://rielart.com",
+        "https://myspotix.com"
+      ],
       "worksFor": [
         {
           "@type": "Organization",
@@ -60,17 +73,63 @@
           "name": "Spotix",
           "url": "https://myspotix.com"
         }
-      ],
-      "sameAs": [
-        "https://rielart.com",
-        "https://myspotix.com"
-      ],
-      "email": "hi@GMACOVEI.com"
+      ]
     }
     </script>
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    
+    <style>
+      /* Critical CSS for above-the-fold content */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #0A0A0C;
+        color: #ffffff;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading state */
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #0A0A0C;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #00D4FF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Loading fallback -->
+      <div class="loading">
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

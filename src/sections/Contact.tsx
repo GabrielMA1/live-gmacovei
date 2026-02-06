@@ -1,8 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
-import { Mail, Clock, Calendar, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { 
+  Send, 
+  Mail, 
+  Clock, 
+  Calendar, 
+  CheckCircle, 
+  ArrowRight,
+  MessageSquare,
+  Briefcase,
+  User,
+  Building2
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,8 +34,6 @@ const Contact = () => {
     service: '',
     message: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -32,359 +54,337 @@ const Contact = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    // Reset after showing success
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        service: '',
-        message: '',
+    
+    try {
+      // Submit to Formspree
+      const response = await fetch('https://formspree.io/f/xjgebdgg', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || 'Not provided',
+          service: formData.service,
+          message: formData.message,
+        }),
       });
-    }, 3000);
+      
+      if (response.ok) {
+        setShowSuccess(true);
+        setFormData({ name: '', email: '', company: '', service: '', message: '' });
+      } else {
+        alert('Something went wrong. Please try again or email me directly at hi@GMACOVEI.com');
+      }
+    } catch (error) {
+      alert('Something went wrong. Please try again or email me directly at hi@GMACOVEI.com');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const serviceOptions = [
-    { value: '', label: 'Select a service...' },
-    { value: 'rielart', label: 'RielArt Services (Web, Branding, Digital)' },
-    { value: 'spotix', label: 'Spotix Services (Local Marketing, Postcards)' },
-    { value: 'both', label: 'Both / Other' },
-  ];
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-24 md:py-32 lg:py-40 bg-charcoal-dark overflow-hidden"
+      className="relative w-full py-24 lg:py-32 bg-charcoal-950 overflow-hidden"
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Top Gradient */}
-        <div
-          className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-        />
-
+      <div className="absolute inset-0">
         {/* Gradient Orbs */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-10"
+        <div 
+          className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full opacity-20"
           style={{
-            background: 'radial-gradient(circle, hsl(217 91% 60% / 0.2) 0%, transparent 60%)',
+            background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 60%)',
           }}
         />
-
+        <div 
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full opacity-15"
+          style={{
+            background: 'radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 60%)',
+          }}
+        />
+        
         {/* Subtle Grid */}
         <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute inset-0 opacity-3"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+              linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
             `,
-            backgroundSize: '80px 80px',
+            backgroundSize: '100px 100px',
           }}
         />
       </div>
 
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-12 xl:px-20">
+      <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
         {/* Section Header */}
-        <div
-          className={`text-center mb-16 md:mb-20 transition-all duration-1000 ${
+        <div 
+          className={`text-center mb-16 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-medium tracking-[0.2em] text-spotix-light bg-spotix/10 border border-spotix/20 rounded-full">
-            GET IN TOUCH
+          <span className="inline-block px-4 py-2 bg-rielart/10 border border-rielart/30 rounded-full text-rielart text-sm font-medium mb-6">
+            Let's Connect
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            Ready to Grow Your <span className="text-spotix">Business</span>?
+          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6">
+            Ready to Grow Your <span className="gradient-text-rielart">Business</span>?
           </h2>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto">
-            I'm currently accepting new projects for Q1 2025. Let's discuss how I can help
-            you achieve your goals.
+          <p className="text-lg lg:text-xl text-charcoal-400 max-w-2xl mx-auto">
+            I'm currently available for new projects and collaborations. 
+            Let's discuss how we can work together to achieve your goals.
           </p>
         </div>
 
-        {/* Urgency Banner */}
-        <div
-          className={`max-w-4xl mx-auto mb-12 transition-all duration-1000 delay-200 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        {/* Availability Banner */}
+        <div 
+          className={`max-w-4xl mx-auto mb-12 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
+          style={{ transitionDelay: '100ms' }}
         >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 p-4 rounded-xl bg-gradient-to-r from-rielart/10 via-charcoal-light to-spotix/10 border border-white/5">
-            <div className="flex items-center gap-2 text-rielart-light">
-              <AlertCircle className="w-5 h-5" />
-              <span className="text-sm font-medium">Limited Availability</span>
+          <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-8 p-6 bg-charcoal-900/50 border border-white/10 rounded-2xl">
+            <div className="flex items-center gap-3">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+              <span className="text-white font-medium">Available for Q1 2025</span>
             </div>
-            <div className="hidden sm:block w-px h-4 bg-white/10" />
-            <p className="text-sm text-white/60 text-center sm:text-left">
-              Only <span className="text-white font-semibold">3 spots remaining</span> for Q1
-              2025
-            </p>
+            <div className="hidden lg:block w-px h-6 bg-white/20" />
+            <div className="flex items-center gap-2 text-charcoal-400">
+              <Clock className="w-4 h-4" />
+              <span className="text-sm">Usually respond within 24 hours</span>
+            </div>
           </div>
         </div>
 
-        {/* Contact Form & Info Grid */}
-        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 max-w-6xl mx-auto">
-          {/* Form Column */}
-          <div
-            className={`lg:col-span-3 transition-all duration-1000 delay-300 ${
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 max-w-7xl mx-auto">
+          {/* Left Side - Contact Info */}
+          <div 
+            className={`lg:col-span-2 space-y-8 transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}
-          >
-            <div className="bg-charcoal-light/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/5">
-              {isSubmitted ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
-                    <CheckCircle className="w-8 h-8 text-green-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
-                  <p className="text-white/60">
-                    Thank you for reaching out. I'll get back to you within 24 hours.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Name & Email Row */}
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-white/80 mb-2"
-                      >
-                        Name <span className="text-rielart">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:border-rielart/50 transition-colors"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-white/80 mb-2"
-                      >
-                        Email <span className="text-rielart">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:border-rielart/50 transition-colors"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Company & Service Row */}
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="company"
-                        className="block text-sm font-medium text-white/80 mb-2"
-                      >
-                        Company <span className="text-white/40">(optional)</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:border-rielart/50 transition-colors"
-                        placeholder="Your company"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="service"
-                        className="block text-sm font-medium text-white/80 mb-2"
-                      >
-                        Service Interest <span className="text-rielart">*</span>
-                      </label>
-                      <select
-                        id="service"
-                        name="service"
-                        value={formData.service}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-rielart/50 transition-colors appearance-none cursor-pointer"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'right 12px center',
-                          backgroundSize: '16px',
-                        }}
-                      >
-                        {serviceOptions.map((option) => (
-                          <option
-                            key={option.value}
-                            value={option.value}
-                            className="bg-charcoal-dark"
-                          >
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-white/80 mb-2"
-                    >
-                      Message <span className="text-rielart">*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:border-rielart/50 transition-colors resize-none"
-                      placeholder="Tell me about your project..."
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full group inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-rielart to-rielart-light text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Send Message</span>
-                        <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-
-          {/* Info Column */}
-          <div
-            className={`lg:col-span-2 space-y-6 transition-all duration-1000 delay-500 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
-            }`}
+            style={{ transitionDelay: '200ms' }}
           >
             {/* Direct Email */}
-            <div className="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-rielart/10 flex items-center justify-center flex-shrink-0">
+            <div className="p-6 bg-charcoal-900/50 border border-white/10 rounded-2xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-rielart/10 rounded-xl flex items-center justify-center">
                   <Mail className="w-6 h-6 text-rielart" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Email Directly</h3>
-                  <p className="text-white/50 text-sm mb-3">
-                    Prefer to email? Reach me directly at:
-                  </p>
-                  <a
-                    href="mailto:hi@GMACOVEI.com"
-                    className="text-rielart-light hover:text-rielart transition-colors font-medium"
-                  >
-                    hi@GMACOVEI.com
-                  </a>
+                  <h3 className="text-white font-semibold">Email Me Directly</h3>
+                  <p className="text-charcoal-400 text-sm">For quick inquiries</p>
                 </div>
               </div>
-            </div>
-
-            {/* Response Time */}
-            <div className="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-spotix/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-6 h-6 text-spotix" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold mb-1">Fast Response</h3>
-                  <p className="text-white/50 text-sm">
-                    I usually respond within{' '}
-                    <span className="text-spotix font-medium">24 hours</span> during business
-                    days.
-                  </p>
-                </div>
-              </div>
+              <a 
+                href="mailto:hi@GMACOVEI.com"
+                className="text-lg text-rielart hover:text-rielart-light transition-colors font-medium"
+              >
+                hi@GMACOVEI.com
+              </a>
             </div>
 
             {/* Schedule Call */}
-            <div className="p-6 rounded-xl bg-gradient-to-br from-spotix/10 to-spotix/5 border border-spotix/20">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-spotix/20 flex items-center justify-center flex-shrink-0">
+            <div className="p-6 bg-charcoal-900/50 border border-white/10 rounded-2xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-spotix/10 rounded-xl flex items-center justify-center">
                   <Calendar className="w-6 h-6 text-spotix" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Schedule a Call</h3>
-                  <p className="text-white/50 text-sm mb-4">
-                    Book a free 30-minute consultation to discuss your project.
-                  </p>
-                  <button
-                    onClick={() => alert('Calendar integration coming soon!')}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-spotix hover:bg-spotix-light text-white text-sm font-medium rounded-lg transition-all duration-300"
-                  >
-                    <span>Book a Call</span>
-                    <Calendar className="w-4 h-4" />
-                  </button>
+                  <h3 className="text-white font-semibold">Schedule a Call</h3>
+                  <p className="text-charcoal-400 text-sm">Book a free consultation</p>
                 </div>
               </div>
+              <button className="group inline-flex items-center gap-2 px-6 py-3 bg-spotix text-charcoal-950 font-semibold rounded-lg transition-all duration-300 hover:bg-spotix-light hover:shadow-[0_0_30px_rgba(255,215,0,0.3)]">
+                Book a Meeting
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
             </div>
 
-            {/* Social Proof */}
-            <div className="p-4 rounded-lg bg-white/[0.02] border border-white/5">
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="w-8 h-8 rounded-full bg-gradient-to-br from-rielart/40 to-spotix/40 border-2 border-charcoal-dark flex items-center justify-center"
-                    >
-                      <span className="text-xs font-medium text-white">{i}</span>
-                    </div>
-                  ))}
+            {/* Trust Indicators */}
+            <div className="space-y-4">
+              <h4 className="text-white font-semibold mb-4">Why Work With Me?</h4>
+              {[
+                '5+ years of proven experience',
+                'Results-driven approach',
+                'Clear communication',
+                'On-time delivery guarantee',
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-3 text-charcoal-300">
+                  <CheckCircle className="w-5 h-5 text-rielart flex-shrink-0" />
+                  <span className="text-sm">{item}</span>
                 </div>
-                <p className="text-sm text-white/50">
-                  <span className="text-white font-medium">50+ clients</span> trust my
-                  services
-                </p>
-              </div>
+              ))}
+            </div>
+
+            {/* Urgency Element */}
+            <div className="p-4 bg-gradient-to-r from-rielart/10 to-spotix/10 border border-white/10 rounded-xl">
+              <p className="text-sm text-charcoal-300">
+                <span className="text-rielart font-semibold">Limited availability:</span> Currently accepting only 3 new projects for Q1 2025.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Side - Contact Form */}
+          <div 
+            className={`lg:col-span-3 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
+            }`}
+            style={{ transitionDelay: '300ms' }}
+          >
+            <div className="p-8 lg:p-10 bg-charcoal-900/50 border border-white/10 rounded-2xl">
+              <h3 className="text-2xl font-bold text-white mb-2">Send a Message</h3>
+              <p className="text-charcoal-400 mb-8">Fill out the form below and I'll get back to you shortly.</p>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Name & Email Row */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-charcoal-300 flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      Your Name *
+                    </label>
+                    <Input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      placeholder="John Doe"
+                      className="w-full px-4 py-3 bg-charcoal-950 border-charcoal-700 rounded-lg text-white placeholder:text-charcoal-500 focus:border-rielart focus:ring-rielart/20"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-charcoal-300 flex items-center gap-2">
+                      <Mail className="w-4 h-4" />
+                      Email Address *
+                    </label>
+                    <Input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      placeholder="john@company.com"
+                      className="w-full px-4 py-3 bg-charcoal-950 border-charcoal-700 rounded-lg text-white placeholder:text-charcoal-500 focus:border-rielart focus:ring-rielart/20"
+                    />
+                  </div>
+                </div>
+
+                {/* Company & Service Row */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-charcoal-300 flex items-center gap-2">
+                      <Building2 className="w-4 h-4" />
+                      Company (Optional)
+                    </label>
+                    <Input
+                      type="text"
+                      value={formData.company}
+                      onChange={(e) => handleInputChange('company', e.target.value)}
+                      placeholder="Your Company"
+                      className="w-full px-4 py-3 bg-charcoal-950 border-charcoal-700 rounded-lg text-white placeholder:text-charcoal-500 focus:border-rielart focus:ring-rielart/20"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-charcoal-300 flex items-center gap-2">
+                      <Briefcase className="w-4 h-4" />
+                      Service Interest *
+                    </label>
+                    <Select 
+                      value={formData.service} 
+                      onValueChange={(value) => handleInputChange('service', value)}
+                      required
+                    >
+                      <SelectTrigger className="w-full px-4 py-3 bg-charcoal-950 border-charcoal-700 rounded-lg text-white focus:border-rielart focus:ring-rielart/20">
+                        <SelectValue placeholder="Select a service" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-charcoal-900 border-charcoal-700">
+                        <SelectItem value="rielart" className="text-white hover:bg-charcoal-800">
+                          RielArt Services (Digital)
+                        </SelectItem>
+                        <SelectItem value="spotix" className="text-white hover:bg-charcoal-800">
+                          Spotix Services (Local Marketing)
+                        </SelectItem>
+                        <SelectItem value="both" className="text-white hover:bg-charcoal-800">
+                          Both / Other
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-charcoal-300 flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4" />
+                    Your Message *
+                  </label>
+                  <Textarea
+                    required
+                    value={formData.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
+                    placeholder="Tell me about your project, goals, and timeline..."
+                    rows={5}
+                    className="w-full px-4 py-3 bg-charcoal-950 border-charcoal-700 rounded-lg text-white placeholder:text-charcoal-500 focus:border-rielart focus:ring-rielart/20 resize-none"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-gradient-to-r from-rielart to-rielart-dark text-charcoal-950 font-bold rounded-lg transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,255,0.3)] hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-charcoal-950 border-t-transparent rounded-full animate-spin" />
+                      Sending...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      Send Message
+                      <Send className="w-5 h-5" />
+                    </span>
+                  )}
+                </Button>
+              </form>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Success Dialog */}
+      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
+        <DialogContent className="bg-charcoal-900 border-white/10 text-white max-w-md">
+          <DialogHeader className="text-center">
+            <div className="mx-auto w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
+              <CheckCircle className="w-8 h-8 text-green-500" />
+            </div>
+            <DialogTitle className="text-2xl font-bold">Message Sent!</DialogTitle>
+            <DialogDescription className="text-charcoal-400">
+              Thank you for reaching out. I'll get back to you within 24 hours.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-6">
+            <Button
+              onClick={() => setShowSuccess(false)}
+              className="w-full py-3 bg-rielart text-charcoal-950 font-semibold rounded-lg hover:bg-rielart-light"
+            >
+              Got it!
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
