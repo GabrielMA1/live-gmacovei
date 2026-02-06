@@ -5,7 +5,7 @@ import { defineConfig } from "vite"
 // https://vite.dev/config/
 export default defineConfig({
   // Set base to your GitHub Pages subpath
-  base: '/live-gmacovei/',
+  base: '/',
   plugins: [react()],
   resolve: {
     alias: {
