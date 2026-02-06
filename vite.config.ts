@@ -4,9 +4,8 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Use '/' for custom domain (GMACOVEI.com)
-  // Use '/repository-name/' for GitHub subdomain (username.github.io/repository-name)
-  base: '/',
+  // Set base to your GitHub Pages subpath
+  base: '/live-gmacovei/',
   plugins: [react()],
   resolve: {
     alias: {
