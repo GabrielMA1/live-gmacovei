@@ -41,7 +41,7 @@ const Footer = () => {
               </span>
             </a>
             <p className="text-charcoal-400 max-w-md mb-8 leading-relaxed">
-              Entrepreneur, digital strategist, and marketing innovator. 
+              Digital strategist, and marketing innovator. 
               Building brands and driving growth through RielArt and Spotix.
             </p>
             

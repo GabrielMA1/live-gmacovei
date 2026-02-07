@@ -96,7 +96,7 @@ const About = () => {
             Behind the Brands
           </h2>
           <p className="text-lg lg:text-xl text-charcoal-400 max-w-2xl mx-auto">
-            Entrepreneur, Digital Strategist & Marketing Innovator
+            Digital Strategist & Marketing Innovator
           </p>
         </div>
 
@@ -155,7 +155,7 @@ const About = () => {
           >
             <div className="space-y-6 text-charcoal-300 leading-relaxed">
               <p className="text-lg">
-                I'm a passionate entrepreneur with a dual expertise in digital innovation and local marketing. 
+                I'm a passionate business founder with a dual expertise in digital innovation and local marketing. 
                 Over the past 5+ years, I've built two successful ventures that help businesses thrive in 
                 today's competitive landscape.
               </p>
