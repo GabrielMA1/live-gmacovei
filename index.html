@@ -27,19 +27,63 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Gabriel Macovei — Digital Strategist & AI Consultant","url":"https://gmacovei.com/","potentialAction":{"@type":"SearchAction","target":"https://gmacovei.com/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
   <script type="application/ld+json" id="faqSchema">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>
   <style>
+    :root{
+      --bg-deep:#060b14;
+      --bg-card:rgba(10,20,38,.7);
+      --bg-card-hover:rgba(10,20,38,.8);
+      --text-primary:#e2e8f0;
+      --text-secondary:#94a3b8;
+      --text-muted:#64748b;
+      --accent-blue:#3b82f6;
+      --accent-light:#60a5fa;
+      --accent-dark:#2563eb;
+      --border-color:rgba(59,130,246,.08);
+      --border-hover:rgba(59,130,246,.2);
+      --shadow-card:0 8px 40px rgba(37,99,235,.1);
+      --gradient-hero:radial-gradient(ellipse at 20% 50%,#0f2240 0%,#0a1628 40%,#060b14 100%);
+      --grid-opacity:.04;
+      --nebula-1:rgba(37,99,235,.07);
+      --nebula-2:rgba(59,130,246,.04);
+      --footer-giant:rgba(226,232,240,.03);
+      --consultation-bg:rgba(10,20,38,.6);
+      --input-bg:rgba(10,20,38,.6);
+    }
+    [data-theme="light"]{
+      --bg-deep:#f8fafc;
+      --bg-card:rgba(255,255,255,.85);
+      --bg-card-hover:rgba(255,255,255,.95);
+      --text-primary:#0f172a;
+      --text-secondary:#475569;
+      --text-muted:#64748b;
+      --accent-blue:#2563eb;
+      --accent-light:#3b82f6;
+      --accent-dark:#1d4ed8;
+      --border-color:rgba(59,130,246,.12);
+      --border-hover:rgba(59,130,246,.35);
+      --shadow-card:0 8px 40px rgba(37,99,235,.08);
+      --gradient-hero:radial-gradient(ellipse at 20% 50%,#e0efff 0%,#f0f7ff 40%,#f8fafc 100%);
+      --grid-opacity:.06;
+      --nebula-1:rgba(37,99,235,.06);
+      --nebula-2:rgba(59,130,246,.03);
+      --footer-giant:rgba(15,23,42,.04);
+      --consultation-bg:rgba(255,255,255,.7);
+      --input-bg:rgba(255,255,255,.7);
+    }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
-    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#060b14;color:#e2e8f0;overflow-x:hidden;line-height:1.7}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-deep);color:var(--text-primary);overflow-x:hidden;line-height:1.7;transition:background .3s ease,color .3s ease}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     .cosmic-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-    .cosmic-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,#0f2240 0%,#0a1628 40%,#060b14 100%)}
-    .nebula-accent{position:absolute;width:80vw;height:80vw;top:-20%;right:-20%;background:radial-gradient(circle,rgba(37,99,235,.07) 0%,transparent 70%);border-radius:50%;animation:pulse 20s ease-in-out infinite}
-    .nebula-accent-2{position:absolute;width:60vw;height:60vw;bottom:-10%;left:-10%;background:radial-gradient(circle,rgba(59,130,246,.04) 0%,transparent 70%);border-radius:50%;animation:pulse 25s ease-in-out infinite reverse}
+    .cosmic-gradient{position:absolute;inset:0;background:var(--gradient-hero);transition:background .3s ease}
+    .nebula-accent{position:absolute;width:80vw;height:80vw;top:-20%;right:-20%;background:radial-gradient(circle,var(--nebula-1) 0%,transparent 70%);border-radius:50%;animation:pulse 20s ease-in-out infinite}
+    .nebula-accent-2{position:absolute;width:60vw;height:60vw;bottom:-10%;left:-10%;background:radial-gradient(circle,var(--nebula-2) 0%,transparent 70%);border-radius:50%;animation:pulse 25s ease-in-out infinite reverse}
     #starfield,#particles{position:absolute;inset:0}
     .star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;opacity:0;animation:twinkle linear infinite}
     .particle{position:absolute;width:4px;height:4px;background:rgba(96,165,250,.25);border-radius:50%;animation:float linear infinite}
+    [data-theme="light"] .star{background:#94a3b8}
+    [data-theme="light"] .particle{background:rgba(59,130,246,.12)}
     @keyframes twinkle{0%,100%{opacity:0}50%{opacity:1}}
     @keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(30px);opacity:0}}
     @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:1}}
@@ -49,149 +93,200 @@
 
     .navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;transition:all .3s ease}
     .navbar.scrolled{background:rgba(6,11,20,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:14px 24px}
-    .logo{font-weight:800;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:#e2e8f0;transition:opacity .3s ease}
+    [data-theme="light"] .navbar.scrolled{background:rgba(248,250,252,.9)}
+    .logo{font-weight:800;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-primary);transition:opacity .3s ease}
     .logo:hover{opacity:.8}
     .nav-links{display:none;gap:32px;list-style:none;align-items:center}
-    .nav-links a{font-weight:500;font-size:14px;letter-spacing:.02em;color:#94a3b8;transition:color .3s ease}
-    .nav-links a:hover,.nav-links a:focus-visible{color:#3b82f6}
-    .nav-links a:focus-visible{outline:2px solid #3b82f6;outline-offset:4px;border-radius:2px}
-    .nav-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff!important;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:all .3s ease;border:none;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+    .nav-links a{font-weight:500;font-size:14px;letter-spacing:.02em;color:var(--text-secondary);transition:color .3s ease}
+    .nav-links a:hover,.nav-links a:focus-visible{color:var(--accent-blue)}
+    .nav-links a:focus-visible{outline:2px solid var(--accent-blue);outline-offset:4px;border-radius:2px}
+    .nav-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent-dark),var(--accent-blue));color:#fff!important;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:all .3s ease;border:none;box-shadow:0 4px 20px rgba(37,99,235,.3)}
     .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(37,99,235,.4);opacity:.95}
     .menu-toggle{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
-    .menu-toggle span{display:block;width:24px;height:2px;background:#e2e8f0;transition:all .3s ease}
+    .menu-toggle span{display:block;width:24px;height:2px;background:var(--text-primary);transition:all .3s ease}
     .mobile-menu{position:fixed;inset:0;z-index:99;background:rgba(6,11,20,.98);backdrop-filter:blur(20px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:40px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    [data-theme="light"] .mobile-menu{background:rgba(248,250,252,.98)}
     .mobile-menu.open{opacity:1;pointer-events:all}
-    .mobile-menu a{font-size:28px;font-weight:600;color:#e2e8f0;letter-spacing:-.01em;transition:color .3s ease}
-    .mobile-menu a:hover{color:#3b82f6}
-    .menu-close{position:absolute;top:20px;right:24px;font-size:32px;color:#e2e8f0;background:none;border:none;cursor:pointer}
+    .mobile-menu a{font-size:28px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;transition:color .3s ease}
+    .mobile-menu a:hover{color:var(--accent-blue)}
+    .menu-close{position:absolute;top:20px;right:24px;font-size:32px;color:var(--text-primary);background:none;border:none;cursor:pointer}
     @media(min-width:768px){.nav-links{display:flex}.menu-toggle{display:none}}
+
+    .theme-toggle{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;color:var(--text-secondary);font-size:18px;cursor:pointer;transition:all .3s ease;margin-right:12px}
+    .theme-toggle:hover{border-color:var(--border-hover);color:var(--accent-blue);transform:translateY(-2px)}
+    .nav-actions{display:flex;align-items:center}
 
     .content{position:relative;z-index:1}
     .section{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
     .section.visible{opacity:1;transform:translateY(0)}
-    .section-label{font-weight:500;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#3b82f6;margin-bottom:16px;display:block}
-    .section-title{font-weight:700;font-size:clamp(32px,4.5vw,56px);letter-spacing:-.02em;line-height:1.1;color:#e2e8f0;margin-bottom:48px}
+    .section-label{font-weight:500;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:16px;display:block}
+    .section-title{font-weight:700;font-size:clamp(32px,4.5vw,56px);letter-spacing:-.02em;line-height:1.1;color:var(--text-primary);margin-bottom:48px}
     .container{max-width:1200px;margin:0 auto;padding:0 24px}
 
     .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:100px 24px 80px;overflow:hidden}
     .hero-visual{position:absolute;right:-10%;top:50%;transform:translateY(-50%);width:50vw;height:50vw;max-width:600px;max-height:600px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.08) 0%,rgba(37,99,235,.03) 40%,transparent 70%);pointer-events:none;animation:pulse 15s ease-in-out infinite}
-    .hero-grid-lines{position:absolute;inset:0;pointer-events:none;opacity:.04;background-image:linear-gradient(rgba(59,130,246,1) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,1) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at 70% 50%,black 0%,transparent 60%);-webkit-mask-image:radial-gradient(ellipse at 70% 50%,black 0%,transparent 60%)}
+    .hero-grid-lines{position:absolute;inset:0;pointer-events:none;opacity:var(--grid-opacity);background-image:linear-gradient(rgba(59,130,246,1) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,1) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at 70% 50%,black 0%,transparent 60%);-webkit-mask-image:radial-gradient(ellipse at 70% 50%,black 0%,transparent 60%);transition:opacity .3s ease}
     .hero-content{max-width:1200px;margin:0 auto;width:100%;position:relative;z-index:1}
     .hero-top-bar{display:flex;align-items:center;gap:16px;margin-bottom:32px}
-    .hero-accent-line{width:48px;height:2px;background:linear-gradient(90deg,#3b82f6,transparent)}
-    .hero-label{font-weight:500;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#60a5fa}
-    .hero-name{font-weight:800;font-size:clamp(52px,9vw,130px);letter-spacing:-.04em;line-height:.95;color:#e2e8f0;margin-bottom:24px}
-    .hero-name span{background:linear-gradient(135deg,#e2e8f0 0%,#60a5fa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-slogan{font-weight:400;font-size:clamp(20px,2.8vw,32px);color:#94a3b8;max-width:640px;margin-bottom:24px;line-height:1.4}
-    .hero-desc{font-size:16px;color:#64748b;max-width:520px;margin-bottom:40px;line-height:1.7}
+    .hero-accent-line{width:48px;height:2px;background:linear-gradient(90deg,var(--accent-blue),transparent)}
+    .hero-label{font-weight:500;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-light)}
+    .hero-name{font-weight:800;font-size:clamp(52px,9vw,130px);letter-spacing:-.04em;line-height:.95;color:var(--text-primary);margin-bottom:24px}
+    .hero-name span{background:linear-gradient(135deg,var(--text-primary) 0%,var(--accent-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-slogan{font-weight:400;font-size:clamp(20px,2.8vw,32px);color:var(--text-secondary);max-width:640px;margin-bottom:24px;line-height:1.4}
+    .hero-desc{font-size:16px;color:var(--text-muted);max-width:520px;margin-bottom:40px;line-height:1.7}
     .hero-cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px}
-    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;padding:16px 36px;border-radius:8px;font-weight:600;font-size:15px;letter-spacing:.02em;cursor:pointer;transition:all .3s ease;font-family:'Inter',sans-serif;border:none;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent-dark),var(--accent-blue));color:#fff;padding:16px 36px;border-radius:8px;font-weight:600;font-size:15px;letter-spacing:.02em;cursor:pointer;transition:all .3s ease;font-family:'Inter',sans-serif;border:none;box-shadow:0 4px 20px rgba(37,99,235,.3)}
     .btn-primary:hover,.btn-primary:focus-visible{transform:translateY(-2px);box-shadow:0 8px 30px rgba(37,99,235,.4);opacity:.95}
-    .btn-primary:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
-    .btn-outline{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(59,130,246,.35);color:#60a5fa;padding:16px 36px;border-radius:8px;font-weight:600;font-size:15px;letter-spacing:.02em;cursor:pointer;transition:all .3s ease;font-family:'Inter',sans-serif}
-    .btn-outline:hover,.btn-outline:focus-visible{background:rgba(59,130,246,.08);border-color:#3b82f6;box-shadow:0 0 20px rgba(59,130,246,.15);transform:translateY(-2px)}
-    .btn-outline:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
+    .btn-primary:focus-visible{outline:2px solid var(--accent-blue);outline-offset:2px}
+    .btn-outline{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(59,130,246,.35);color:var(--accent-light);padding:16px 36px;border-radius:8px;font-weight:600;font-size:15px;letter-spacing:.02em;cursor:pointer;transition:all .3s ease;font-family:'Inter',sans-serif}
+    .btn-outline:hover,.btn-outline:focus-visible{background:rgba(59,130,246,.08);border-color:var(--accent-blue);box-shadow:0 0 20px rgba(59,130,246,.15);transform:translateY(-2px)}
+    .btn-outline:focus-visible{outline:2px solid var(--accent-blue);outline-offset:2px}
     .hero-stats{display:flex;gap:40px;flex-wrap:wrap}
     .hero-stat{display:flex;flex-direction:column;gap:4px}
-    .hero-stat-number{font-weight:700;font-size:28px;color:#e2e8f0;letter-spacing:-.02em}
-    .hero-stat-label{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+    .hero-stat-number{font-weight:700;font-size:28px;color:var(--text-primary);letter-spacing:-.02em}
+    .hero-stat-label{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
     .scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(59,130,246,.4);font-size:20px;animation:bounce 2s ease infinite}
     @media(min-width:1024px){.hero-visual{right:5%}}
     @media(max-width:480px){.hero-stats{flex-direction:column;gap:24px}}
+
+    .why-section{padding:80px 0;background:linear-gradient(180deg,transparent 0%,rgba(59,130,246,.03) 50%,transparent 100%)}
+    .why-box{max-width:800px;margin:0 auto;text-align:center;padding:0 24px}
+    .why-box p{font-size:clamp(18px,2.2vw,22px);color:var(--text-secondary);line-height:1.8;font-weight:400}
+    .why-box p strong{color:var(--text-primary);font-weight:600}
 
     .services{padding:100px 0}
     .services-grid{display:grid;grid-template-columns:1fr;gap:24px}
     @media(min-width:768px){.services-grid{grid-template-columns:repeat(2,1fr)}}
     @media(min-width:1024px){.services-grid{grid-template-columns:repeat(3,1fr)}.services{padding:120px 0}}
-    .service-card{background:rgba(10,20,38,.7);backdrop-filter:blur(8px);border:1px solid rgba(59,130,246,.08);border-radius:16px;padding:40px 32px;transition:all .4s cubic-bezier(.25,.46,.45,.94)}
-    .service-card:hover{border-color:rgba(59,130,246,.2);box-shadow:0 8px 40px rgba(37,99,235,.1);transform:translateY(-4px)}
+    .service-card{background:var(--bg-card);backdrop-filter:blur(8px);border:1px solid var(--border-color);border-radius:16px;padding:40px 32px;transition:all .4s cubic-bezier(.25,.46,.45,.94)}
+    .service-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-card);transform:translateY(-4px)}
     .service-icon{font-size:40px;margin-bottom:20px}
-    .service-icon.blue{color:#3b82f6}
-    .service-icon.light{color:#60a5fa}
-    .service-title{font-weight:600;font-size:24px;letter-spacing:-.01em;color:#e2e8f0;margin-bottom:8px}
-    .service-outcome{font-weight:600;font-size:15px;color:#60a5fa;margin-bottom:12px;line-height:1.5}
-    .service-desc{font-size:16px;color:#94a3b8;line-height:1.7}
+    .service-icon.blue{color:var(--accent-blue)}
+    .service-icon.light{color:var(--accent-light)}
+    .service-title{font-weight:600;font-size:24px;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:8px}
+    .service-outcome{font-weight:600;font-size:15px;color:var(--accent-light);margin-bottom:12px;line-height:1.5}
+    .service-desc{font-size:16px;color:var(--text-secondary);line-height:1.7}
+    .pricing-indicator{margin-top:48px;padding:24px 32px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;text-align:center;backdrop-filter:blur(8px)}
+    .pricing-indicator p{font-size:16px;color:var(--text-secondary);line-height:1.6}
+    .pricing-indicator strong{color:var(--text-primary);font-weight:600}
 
-    .trust{padding:80px 0}
-    .trust-title{text-align:center;font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:40px}
-    .trust-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:40px;max-width:900px;margin:0 auto}
-    .trust-item{display:flex;align-items:center;gap:10px;color:#64748b;font-weight:600;font-size:16px;transition:color .3s ease}
-    .trust-item:hover{color:#94a3b8}
-    .trust-item i{font-size:24px}
+    .clients{padding:60px 0;background:linear-gradient(180deg,transparent 0%,rgba(59,130,246,.02) 50%,transparent 100%)}
+    .clients-title{text-align:center;font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:40px}
+    .clients-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px;max-width:1000px;margin:0 auto}
+    .client-chip{display:flex;align-items:center;gap:10px;background:var(--bg-card);border:1px solid var(--border-color);padding:12px 20px;border-radius:10px;color:var(--text-secondary);font-weight:500;font-size:15px;transition:all .3s ease}
+    .client-chip:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:var(--shadow-card);color:var(--text-primary)}
+    .client-chip i{font-size:18px;color:var(--accent-blue)}
+
+    .recent-work{padding:100px 0}
+    @media(min-width:1024px){.recent-work{padding:120px 0}}
+    .case-grid{display:grid;grid-template-columns:1fr;gap:24px}
+    @media(min-width:768px){.case-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.case-grid{grid-template-columns:repeat(3,1fr)}}
+    .case-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;padding:36px 32px;transition:all .4s cubic-bezier(.25,.46,.45,.94)}
+    .case-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-card);transform:translateY(-4px)}
+    .case-tag{font-weight:500;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:12px}
+    .case-title{font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:12px;line-height:1.4}
+    .case-desc{font-size:15px;color:var(--text-secondary);line-height:1.7}
+    .case-stat{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);color:var(--accent-light);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;margin-top:16px}
 
     .projects{padding:100px 0}
     @media(min-width:1024px){.projects{padding:120px 0}}
-    .project-card{background:rgba(10,20,38,.5);border:1px solid rgba(59,130,246,.06);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1fr;margin-bottom:32px;transition:all .4s ease;cursor:pointer}
+    .project-card{background:rgba(10,20,38,.5);border:1px solid var(--border-color);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1fr;margin-bottom:32px;transition:all .4s ease;cursor:pointer}
+    [data-theme="light"] .project-card{background:rgba(255,255,255,.5)}
     .project-card:last-child{margin-bottom:0}
-    .project-card:hover{border-color:rgba(59,130,246,.15);transform:translateY(-2px)}
+    .project-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
     @media(min-width:768px){.project-card{grid-template-columns:45% 55%}}
     .project-image{width:100%;height:240px;object-fit:cover;transition:transform .4s ease}
     .project-card:hover .project-image{transform:scale(1.03)}
     @media(min-width:768px){.project-image{height:100%;min-height:320px}}
     .project-content{padding:32px;display:flex;flex-direction:column;justify-content:center}
     @media(min-width:768px){.project-content{padding:40px 48px}}
-    .project-tag{font-weight:500;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#3b82f6;margin-bottom:12px}
-    .project-title{font-weight:600;font-size:28px;letter-spacing:-.01em;color:#e2e8f0;margin-bottom:4px}
-    .project-url{font-size:14px;color:#60a5fa;margin-bottom:16px;display:inline-block;transition:opacity .3s ease}
+    .project-tag{font-weight:500;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:12px}
+    .project-title{font-weight:600;font-size:28px;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:4px}
+    .project-url{font-size:14px;color:var(--accent-light);margin-bottom:16px;display:inline-block;transition:opacity .3s ease}
     .project-url:hover{opacity:.8;text-decoration:underline}
-    .project-desc{font-size:16px;color:#94a3b8;line-height:1.7;margin-bottom:20px}
+    .project-desc{font-size:16px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px}
     .project-stats{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-    .stat-badge{background:rgba(59,130,246,.1);color:#60a5fa;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500}
-    .project-cta{font-weight:600;font-size:14px;color:#3b82f6;transition:opacity .3s ease;align-self:flex-start}
+    .stat-badge{background:rgba(59,130,246,.1);color:var(--accent-light);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500}
+    .project-cta{font-weight:600;font-size:14px;color:var(--accent-blue);transition:opacity .3s ease;align-self:flex-start}
     .project-cta:hover{opacity:.8}
+
+    .blog{padding:100px 0}
+    @media(min-width:1024px){.blog{padding:120px 0}}
+    .blog-grid{display:grid;grid-template-columns:1fr;gap:24px}
+    @media(min-width:768px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.blog-grid{grid-template-columns:repeat(3,1fr)}}
+    .blog-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;padding:32px;transition:all .4s cubic-bezier(.25,.46,.45,.94);cursor:pointer}
+    .blog-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-card);transform:translateY(-4px)}
+    .blog-meta{font-weight:500;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:12px}
+    .blog-title{font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:12px;line-height:1.4}
+    .blog-excerpt{font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:16px}
+    .blog-read{font-weight:600;font-size:14px;color:var(--accent-blue);transition:opacity .3s ease;display:inline-flex;align-items:center;gap:6px}
+    .blog-read:hover{opacity:.8}
 
     .faq{padding:100px 0}
     @media(min-width:1024px){.faq{padding:120px 0}}
     .faq-list{max-width:800px}
-    .faq-item{background:rgba(10,20,38,.6);border:1px solid rgba(59,130,246,.08);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .3s ease}
-    .faq-item:hover{border-color:rgba(59,130,246,.15)}
-    .faq-question{width:100%;padding:20px 24px;background:none;border:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#e2e8f0;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;text-align:left;transition:color .3s ease}
-    .faq-question:hover{color:#3b82f6}
-    .faq-question i{transition:transform .3s ease;color:#3b82f6;font-size:14px;flex-shrink:0;margin-left:16px}
+    .faq-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .3s ease}
+    .faq-item:hover{border-color:var(--border-hover)}
+    .faq-question{width:100%;padding:20px 24px;background:none;border:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:var(--text-primary);font-family:'Inter',sans-serif;font-size:16px;font-weight:600;text-align:left;transition:color .3s ease}
+    .faq-question:hover{color:var(--accent-blue)}
+    .faq-question i{transition:transform .3s ease;color:var(--accent-blue);font-size:14px;flex-shrink:0;margin-left:16px}
     .faq-item.open .faq-question i{transform:rotate(180deg)}
     .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 24px}
     .faq-item.open .faq-answer{max-height:300px;padding:0 24px 20px}
-    .faq-answer p{color:#94a3b8;font-size:15px;line-height:1.7}
+    .faq-answer p{color:var(--text-secondary);font-size:15px;line-height:1.7}
 
     .contact{padding:100px 0}
     @media(min-width:1024px){.contact{padding:120px 0}}
     .contact-grid{display:grid;grid-template-columns:1fr;gap:48px}
     @media(min-width:768px){.contact-grid{grid-template-columns:1fr 1fr;gap:64px}}
-    .contact-info p{color:#94a3b8;margin-bottom:24px;font-size:16px;line-height:1.7}
-    .consultation-box{background:rgba(10,20,38,.6);border:1px solid rgba(59,130,246,.12);border-radius:12px;padding:20px 24px;margin-bottom:32px}
-    .consultation-box h3{font-weight:600;font-size:18px;color:#e2e8f0;margin-bottom:8px}
-    .consultation-box p{color:#64748b;font-size:14px;margin-bottom:0}
-    .contact-email{display:inline-flex;align-items:center;gap:10px;color:#3b82f6;font-weight:500;margin-bottom:32px;transition:opacity .3s ease}
+    .contact-info p{color:var(--text-secondary);margin-bottom:24px;font-size:16px;line-height:1.7}
+    .consultation-box{background:var(--consultation-bg);border:1px solid rgba(59,130,246,.12);border-radius:12px;padding:20px 24px;margin-bottom:32px;backdrop-filter:blur(8px)}
+    .consultation-box h3{font-weight:600;font-size:18px;color:var(--text-primary);margin-bottom:8px}
+    .consultation-box p{color:var(--text-muted);font-size:14px;margin-bottom:0}
+    .pricing-box{background:var(--consultation-bg);border:1px solid var(--border-color);border-radius:12px;padding:20px 24px;margin-bottom:32px;backdrop-filter:blur(8px)}
+    .pricing-box h3{font-weight:600;font-size:18px;color:var(--text-primary);margin-bottom:8px}
+    .pricing-box p{color:var(--text-muted);font-size:14px;margin-bottom:0;line-height:1.6}
+    .contact-email{display:inline-flex;align-items:center;gap:10px;color:var(--accent-blue);font-weight:500;margin-bottom:32px;transition:opacity .3s ease}
     .contact-email:hover{opacity:.8}
     .social-links{display:flex;gap:12px}
-    .social-btn{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:12px;color:#3b82f6;font-size:20px;transition:all .3s ease}
+    .social-btn{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:12px;color:var(--accent-blue);font-size:20px;transition:all .3s ease}
     .social-btn:hover,.social-btn:focus-visible{background:rgba(59,130,246,.15);transform:translateY(-2px)}
-    .social-btn:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
+    .social-btn:focus-visible{outline:2px solid var(--accent-blue);outline-offset:2px}
     .contact-form{display:flex;flex-direction:column;gap:20px}
-    .form-input{background:rgba(10,20,38,.6);border:1px solid rgba(59,130,246,.1);color:#e2e8f0;padding:14px 16px;border-radius:8px;font-family:'Inter',sans-serif;font-size:15px;transition:all .3s ease;width:100%}
+    .form-input{background:var(--input-bg);border:1px solid rgba(59,130,246,.1);color:var(--text-primary);padding:14px 16px;border-radius:8px;font-family:'Inter',sans-serif;font-size:15px;transition:all .3s ease;width:100%;backdrop-filter:blur(8px)}
     .form-input::placeholder{color:#475569}
-    .form-input:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+    [data-theme="light"] .form-input::placeholder{color:#94a3b8}
+    .form-input:focus{outline:none;border-color:var(--accent-blue);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
     textarea.form-input{resize:vertical;min-height:120px}
     select.form-input{cursor:pointer}
-    .btn-submit{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;font-weight:700;font-size:15px;padding:16px 32px;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s ease;width:100%;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+    .btn-submit{background:linear-gradient(135deg,var(--accent-dark),var(--accent-blue));color:#fff;font-weight:700;font-size:15px;padding:16px 32px;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s ease;width:100%;box-shadow:0 4px 20px rgba(37,99,235,.3)}
     .btn-submit:hover,.btn-submit:focus-visible{opacity:.95;transform:translateY(-1px);box-shadow:0 8px 30px rgba(37,99,235,.4)}
-    .btn-submit:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
-    .success-message{display:none;background:rgba(59,130,246,.08);color:#60a5fa;padding:16px;border-radius:8px;font-weight:500;text-align:center;animation:fadeIn .4s ease}
+    .btn-submit:focus-visible{outline:2px solid var(--accent-blue);outline-offset:2px}
+    .success-message{display:none;background:rgba(59,130,246,.08);color:var(--accent-light);padding:16px;border-radius:8px;font-weight:500;text-align:center;animation:fadeIn .4s ease}
+    .calendly-embed{width:100%;min-height:620px;border:none;border-radius:12px;background:var(--bg-card);border:1px solid var(--border-color)}
+    .contact-tabs{display:flex;gap:8px;margin-bottom:24px}
+    .contact-tab{padding:10px 20px;border-radius:8px;font-weight:500;font-size:14px;cursor:pointer;background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-secondary);transition:all .3s ease;font-family:'Inter',sans-serif}
+    .contact-tab.active{background:linear-gradient(135deg,var(--accent-dark),var(--accent-blue));color:#fff;border-color:transparent;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+    .contact-tab:hover:not(.active){border-color:var(--border-hover);color:var(--text-primary)}
+    .contact-panel{display:none}
+    .contact-panel.active{display:block}
 
     .footer{position:relative;padding:80px 0 40px;overflow:hidden}
-    .footer-giant-text{position:absolute;bottom:-2vw;left:50%;transform:translateX(-50%);font-size:15vw;font-weight:900;color:rgba(226,232,240,.03);white-space:nowrap;pointer-events:none;user-select:none;line-height:1;letter-spacing:-.05em}
-    .footer-content{position:relative;z-index:1;border-top:1px solid rgba(59,130,246,.06);padding-top:40px;display:flex;flex-direction:column;align-items:center;gap:24px}
+    .footer-giant-text{position:absolute;bottom:-2vw;left:50%;transform:translateX(-50%);font-size:15vw;font-weight:900;color:var(--footer-giant);white-space:nowrap;pointer-events:none;user-select:none;line-height:1;letter-spacing:-.05em}
+    .footer-content{position:relative;z-index:1;border-top:1px solid var(--border-color);padding-top:40px;display:flex;flex-direction:column;align-items:center;gap:24px}
     @media(min-width:768px){.footer-content{flex-direction:row;justify-content:space-between}}
     .footer-social{display:flex;gap:10px}
     .footer-social .social-btn{width:40px;height:40px;font-size:16px;border-radius:10px}
-    .footer-links{font-size:14px;color:#94a3b8}
+    .footer-links{font-size:14px;color:var(--text-secondary)}
     .footer-links a{transition:color .3s ease}
-    .footer-links a:hover{color:#3b82f6}
+    .footer-links a:hover{color:var(--accent-blue)}
     .footer-links .divider{margin:0 12px;opacity:.3}
-    .footer-copy{font-size:14px;color:#94a3b8;text-align:center}
+    .footer-copy{font-size:14px;color:var(--text-secondary);text-align:center}
     @media(min-width:768px){.footer-copy{text-align:right}}
 
-    .back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.25);border-radius:10px;color:#3b82f6;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;opacity:0;pointer-events:none;transition:all .3s ease;z-index:90}
+    .back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.25);border-radius:10px;color:var(--accent-blue);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;opacity:0;pointer-events:none;transition:all .3s ease;z-index:90}
     .back-to-top.visible{opacity:1;pointer-events:all}
     .back-to-top:hover{background:rgba(59,130,246,.25);transform:translateY(-2px)}
   </style>
@@ -213,7 +308,10 @@
       <li><a href="#contact">Contact</a></li>
       <li><a href="#contact" class="nav-cta"><i class="fas fa-calendar-check"></i> Book a Call</a></li>
     </ul>
-    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span></span><span></span><span></button>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </nav>
   <div class="mobile-menu" id="mobileMenu">
     <button class="menu-close" id="menuClose" aria-label="Close menu">&times;</button>
@@ -247,6 +345,13 @@
       </div>
       <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
     </section>
+
+    <section class="why-section section" id="why">
+      <div class="why-box">
+        <p><strong>Why I Do This</strong> — I started RielArt and Spotix because I saw too many businesses struggling with either overpriced agencies or DIY tools that don't scale. Now I help founders bridge that gap — with AI, design, and advertising that actually works.</p>
+      </div>
+    </section>
+
     <section class="services section" id="services">
       <div class="container">
         <span class="section-label">Services</span>
@@ -271,27 +376,52 @@
             <p class="service-desc">Direct mail via Spotix, paid campaigns on Meta and LinkedIn, and local marketing strategies that reach your audience where they are.</p>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="trust section" id="trust">
-      <div class="container">
-        <p class="trust-title">Tools & Platforms I Work With</p>
-        <div class="trust-grid">
-          <div class="trust-item"><i class="fab fa-meta" style="color:#0081fb"></i><span>Meta Ads</span></div>
-          <div class="trust-item"><i class="fab fa-linkedin" style="color:#0a66c2"></i><span>LinkedIn Ads</span></div>
-          <div class="trust-item"><i class="fas fa-robot" style="color:#10a37f"></i><span>OpenAI</span></div>
-          <div class="trust-item"><i class="fas fa-brain" style="color:#d4a574"></i><span>Anthropic</span></div>
-          <div class="trust-item"><i class="fab fa-google" style="color:#4285f4"></i><span>Google Ads</span></div>
-          <div class="trust-item"><i class="fas fa-code" style="color:#4353ff"></i><span>Webflow</span></div>
-          <div class="trust-item"><i class="fas fa-paint-brush" style="color:#f24e1e"></i><span>Figma</span></div>
-          <div class="trust-item"><i class="fas fa-bolt" style="color:#ff4a00"></i><span>Make</span></div>
-          <div class="trust-item"><i class="fas fa-zap" style="color:#ff4a00"></i><span>Zapier</span></div>
-          <div class="trust-item"><i class="fab fa-hubspot" style="color:#ff7a59"></i><span>HubSpot</span></div>
-          <div class="trust-item"><i class="fas fa-envelope-open-text" style="color:#e37400"></i><span>Mailchimp</span></div>
-          <div class="trust-item"><i class="fas fa-chart-line" style="color:#635bff"></i><span>Stripe</span></div>
+        <div class="pricing-indicator">
+          <p><strong>Starting From</strong> — Strategy calls: <strong>Free</strong>. Project-based work: Typically <strong>$2,000–$15,000</strong> depending on scope.</p>
         </div>
       </div>
     </section>
+
+    <section class="clients section" id="clients">
+      <div class="container">
+        <p class="clients-title">Clients & Industries</p>
+        <div class="clients-grid">
+          <div class="client-chip"><i class="fas fa-shopping-bag"></i><span>Retail</span></div>
+          <div class="client-chip"><i class="fas fa-heartbeat"></i><span>Health & Wellness</span></div>
+          <div class="client-chip"><i class="fas fa-briefcase"></i><span>Professional Services</span></div>
+          <div class="client-chip"><i class="fas fa-utensils"></i><span>Restaurants</span></div>
+          <div class="client-chip"><i class="fas fa-shopping-cart"></i><span>E-commerce</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-work section" id="recent-work">
+      <div class="container">
+        <span class="section-label">Recent Work</span>
+        <h2 class="section-title">Anonymous Case Studies</h2>
+        <div class="case-grid">
+          <div class="case-card">
+            <span class="case-tag">E-commerce</span>
+            <h3 class="case-title">E-commerce brand identity + Meta ads</h3>
+            <p class="case-desc">From zero to first campaign in 3 weeks. Built a complete visual identity, set up product catalog, and launched targeted Meta ads.</p>
+            <span class="case-stat"><i class="fas fa-rocket"></i> 3 weeks to launch</span>
+          </div>
+          <div class="case-card">
+            <span class="case-tag">Direct Mail</span>
+            <h3 class="case-title">Local business direct mail via Spotix</h3>
+            <p class="case-desc">Reached 10,000 homes in targeted Toronto neighborhoods with a personalized postcard campaign driving in-store traffic.</p>
+            <span class="case-stat"><i class="fas fa-envelope"></i> 10,000 homes reached</span>
+          </div>
+          <div class="case-card">
+            <span class="case-tag">AI Automation</span>
+            <h3 class="case-title">AI chatbot implementation</h3>
+            <p class="case-desc">Automated FAQ handling for a service business, saving 15+ hours per week and improving response time to under 30 seconds.</p>
+            <span class="case-stat"><i class="fas fa-clock"></i> 15+ hrs/week saved</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="projects section" id="projects">
       <div class="container">
         <span class="section-label">My Projects</span>
@@ -324,13 +454,41 @@
             <span class="project-cta">Visit Spotix <i class="fas fa-arrow-right" style="font-size:12px;margin-left:4px"></i></span>
           </div>
         </div>
-        <div style="text-align:center;margin-top:48px;padding:40px 24px;background:rgba(10,20,38,.6);border:1px solid rgba(59,130,246,.1);border-radius:16px">
-          <h3 style="font-weight:700;font-size:22px;color:#e2e8f0;margin-bottom:12px">Need a Custom Solution?</h3>
-          <p style="color:#94a3b8;font-size:16px;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto">From AI implementation to full digital transformations — let's discuss what works for your business.</p>
+        <div style="text-align:center;margin-top:48px;padding:40px 24px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px">
+          <h3 style="font-weight:700;font-size:22px;color:var(--text-primary);margin-bottom:12px">Need a Custom Solution?</h3>
+          <p style="color:var(--text-secondary);font-size:16px;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto">From AI implementation to full digital transformations — let's discuss what works for your business.</p>
           <a href="#contact" class="btn-primary"><i class="fas fa-handshake"></i> Start a Project</a>
         </div>
       </div>
     </section>
+
+    <section class="blog section" id="blog">
+      <div class="container">
+        <span class="section-label">Insights</span>
+        <h2 class="section-title">Latest Thinking</h2>
+        <div class="blog-grid">
+          <article class="blog-card" onclick="window.open('https://gmacovei.com/blog/ai-chatbots-cut-support-costs','_blank')" role="link" tabindex="0" aria-label="Read article about AI chatbots">
+            <span class="blog-meta">AI & Automation</span>
+            <h3 class="blog-title">How AI Chatbots Cut Customer Support Costs by 40%</h3>
+            <p class="blog-excerpt">Businesses implementing AI chatbots are seeing dramatic reductions in support overhead while improving customer satisfaction scores.</p>
+            <span class="blog-read">Read More <i class="fas fa-arrow-right" style="font-size:12px"></i></span>
+          </article>
+          <article class="blog-card" onclick="window.open('https://gmacovei.com/blog/direct-mail-outperforms-digital-ads-toronto','_blank')" role="link" tabindex="0" aria-label="Read article about direct mail in Toronto">
+            <span class="blog-meta">Advertising</span>
+            <h3 class="blog-title">Why Direct Mail Still Outperforms Digital Ads in Toronto</h3>
+            <p class="blog-excerpt">In a crowded digital landscape, physical mail creates tangible connections that digital ads simply can't replicate for local businesses.</p>
+            <span class="blog-read">Read More <i class="fas fa-arrow-right" style="font-size:12px"></i></span>
+          </article>
+          <article class="blog-card" onclick="window.open('https://gmacovei.com/blog/5-signs-website-costing-leads','_blank')" role="link" tabindex="0" aria-label="Read article about website lead costs">
+            <span class="blog-meta">Web Strategy</span>
+            <h3 class="blog-title">5 Signs Your Website Is Costing You Leads</h3>
+            <p class="blog-excerpt">Slow load times, poor mobile experience, and unclear messaging are silently killing conversions. Here's what to look for.</p>
+            <span class="blog-read">Read More <i class="fas fa-arrow-right" style="font-size:12px"></i></span>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="faq section" id="faq">
       <div class="container">
         <span class="section-label">FAQ</span>
@@ -375,6 +533,7 @@
         </div>
       </div>
     </section>
+
     <section class="contact section" id="contact">
       <div class="container">
         <span class="section-label">Contact</span>
@@ -383,51 +542,63 @@
           <div class="contact-info">
             <p>Have a project in mind or want to discuss how AI and digital strategy can transform your business? I'd love to hear from you.</p>
             <div class="consultation-box">
-              <h3><i class="fas fa-calendar-check" style="margin-right:8px;color:#3b82f6"></i>Book a Free Strategy Call</h3>
+              <h3><i class="fas fa-calendar-check" style="margin-right:8px;color:var(--accent-blue)"></i>Book a Free Strategy Call</h3>
               <p>30-minute call to discuss your goals, challenges, and how we can work together. No strings attached.</p>
+            </div>
+            <div class="pricing-box">
+              <h3><i class="fas fa-tag" style="margin-right:8px;color:var(--accent-blue)"></i>Investment</h3>
+              <p>Strategy calls are <strong>free</strong>. Project-based work typically ranges from <strong>$2,000–$15,000</strong> depending on scope and complexity.</p>
             </div>
             <a href="mailto:hello@gmacovei.com" class="contact-email"><i class="fas fa-envelope"></i> hello@gmacovei.com</a>
             <div class="social-links">
               <a href="https://www.linkedin.com/in/gabrielmacovei" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
-              <a href="https://www.instagram.com/gabrielmacovei" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram Profile"><i class="fab fa-instagram"></i></a>
               <a href="mailto:hello@gmacovei.com" class="social-btn" aria-label="Send Email"><i class="fas fa-envelope"></i></a>
             </div>
           </div>
           <div>
-            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xjgebdgg" method="POST">
-              <input type="text" name="name" class="form-input" placeholder="Your Name" required aria-label="Your Name">
-              <input type="email" name="email" class="form-input" placeholder="Your Email" required aria-label="Your Email">
-              <select name="project_type" class="form-input" aria-label="Project Type" style="cursor:pointer">
-                <option value="" disabled selected>Select Project Type</option>
-                <option value="ai_integration">AI Integration & Automation</option>
-                <option value="digital_presence">Digital Presence & Web Design</option>
-                <option value="advertising">Advertising & Marketing</option>
-                <option value="consulting">Strategy Consulting</option>
-                <option value="other">Something Else</option>
-              </select>
-              <textarea name="message" class="form-input" placeholder="Tell me about your project..." rows="5" required aria-label="Your Message"></textarea>
-              <button type="submit" class="btn-submit">Send Message</button>
-            </form>
-            <div class="success-message" id="successMessage"><i class="fas fa-check-circle" style="margin-right:8px"></i>Thanks! I'll get back to you soon.</div>
+            <div class="contact-tabs">
+              <button class="contact-tab active" data-tab="form" onclick="switchTab('form')">Send a Message</button>
+              <button class="contact-tab" data-tab="calendly" onclick="switchTab('calendly')">Book a Call</button>
+            </div>
+            <div class="contact-panel active" id="panel-form">
+              <form class="contact-form" id="contactForm" action="https://formspree.io/f/xjgebdgg" method="POST">
+                <input type="text" name="name" class="form-input" placeholder="Your Name" required aria-label="Your Name">
+                <input type="email" name="email" class="form-input" placeholder="Your Email" required aria-label="Your Email">
+                <select name="project_type" class="form-input" aria-label="Project Type" style="cursor:pointer">
+                  <option value="" disabled selected>Select Project Type</option>
+                  <option value="ai_integration">AI Integration & Automation</option>
+                  <option value="digital_presence">Digital Presence & Web Design</option>
+                  <option value="advertising">Advertising & Marketing</option>
+                  <option value="consulting">Strategy Consulting</option>
+                  <option value="other">Something Else</option>
+                </select>
+                <textarea name="message" class="form-input" placeholder="Tell me about your project..." rows="5" required aria-label="Your Message"></textarea>
+                <button type="submit" class="btn-submit">Send Message</button>
+              </form>
+              <div class="success-message" id="successMessage"><i class="fas fa-check-circle" style="margin-right:8px"></i>Thanks! I'll get back to you soon.</div>
+            </div>
+            <div class="contact-panel" id="panel-calendly">
+              <iframe class="calendly-embed" src="https://calendly.com/gabrielmacovei/30min" title="Book a strategy call with Gabriel Macovei" loading="lazy"></iframe>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
     <footer class="footer">
       <div class="footer-giant-text">GMACOVEI</div>
       <div class="container">
         <div class="footer-content">
           <div class="footer-social">
             <a href="https://www.linkedin.com/in/gabrielmacovei" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://www.instagram.com/gabrielmacovei" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram Profile"><i class="fab fa-instagram"></i></a>
             <a href="mailto:hello@gmacovei.com" class="social-btn" aria-label="Send Email"><i class="fas fa-envelope"></i></a>
           </div>
           <div class="footer-links">
-            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
             <span class="divider">|</span>
-            <a href="terms-conditions.html">Terms & Conditions</a>
+            <a href="/terms-conditions/">Terms & Conditions</a>
           </div>
-          <div class="footer-copy">&copy; 2025 Gabriel Macovei. All rights reserved.</div>
+          <div class="footer-copy">&copy; 2026 Gabriel Macovei. All rights reserved.</div>
         </div>
       </div>
     </footer>
@@ -444,7 +615,9 @@
     function initBackToTop(){const b=document.getElementById('backToTop');window.addEventListener('scroll',()=>{if(window.scrollY>500)b.classList.add('visible');else b.classList.remove('visible')});b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}))}
     function initForm(){const f=document.getElementById('contactForm'),s=document.getElementById('successMessage');f.addEventListener('submit',async(e)=>{e.preventDefault();const b=f.querySelector('.btn-submit'),ot=b.textContent;b.textContent='Sending...';b.disabled=true;try{const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}});if(r.ok){f.style.display='none';s.style.display='block'}else throw new Error('fail')}catch(err){b.textContent=ot;b.disabled=false;alert('Something went wrong. Please try again or email me directly at hello@gmacovei.com')}})}
     function updateFaqSchema(){const items=document.querySelectorAll('.faq-item'),me=[];items.forEach(item=>{const q=item.querySelector('.faq-question span').textContent,a=item.querySelector('.faq-answer p').textContent;me.push({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}})});document.getElementById('faqSchema').textContent=JSON.stringify({'@context':'https://schema.org','@type':'FAQPage','mainEntity':me})}
-    document.addEventListener('DOMContentLoaded',()=>{createStars();createParticles();handleNavbarScroll();initMobileMenu();initSectionReveal();initStatsCounter();initFaqAccordion();initBackToTop();initForm();updateFaqSchema()});
+    function initThemeToggle(){const t=document.getElementById('themeToggle'),i=document.getElementById('themeIcon'),saved=localStorage.getItem('theme');if(saved){document.documentElement.setAttribute('data-theme',saved);i.className=saved==='light'?'fas fa-sun':'fas fa-moon'}t.addEventListener('click',()=>{const current=document.documentElement.getAttribute('data-theme')||'dark';const next=current==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);localStorage.setItem('theme',next);i.className=next==='light'?'fas fa-sun':'fas fa-moon'})}
+    function switchTab(tab){document.querySelectorAll('.contact-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));document.querySelectorAll('.contact-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab))}
+    document.addEventListener('DOMContentLoaded',()=>{createStars();createParticles();handleNavbarScroll();initMobileMenu();initSectionReveal();initStatsCounter();initFaqAccordion();initBackToTop();initForm();updateFaqSchema();initThemeToggle()});
     window.addEventListener('scroll',handleNavbarScroll);
   </script>
 </body>
