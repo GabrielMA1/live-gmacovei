@@ -88,6 +88,18 @@
     @keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(30px);opacity:0}}
     @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:1}}
     @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+        /* AI Neural Network Background */
+    .ai-bg canvas{opacity:0.35!important}
+    @media(prefers-reduced-motion:reduce){.ai-bg canvas{opacity:0.15!important}}
+    
+    /* Floating AI Nodes */
+    .ai-nodes{position:absolute;inset:0;pointer-events:none;z-index:1}
+    .node{position:absolute;padding:8px 16px;border-radius:20px;border:1px solid rgba(59,130,246,0.25);background:rgba(10,20,38,0.6);font-size:11px;font-weight:600;color:var(--accent-light);letter-spacing:0.05em;text-transform:uppercase;backdrop-filter:blur(4px);animation:nodeFloat 8s ease-in-out infinite;opacity:0.7}
+    .node span{display:block}
+    @keyframes nodeFloat{0%,100%{transform:translateY(0) scale(1);opacity:0.6}25%{transform:translateY(-15px) scale(1.05);opacity:0.9}50%{transform:translateY(-5px) scale(1);opacity:0.7}75%{transform:translateY(-20px) scale(1.05);opacity:0.8}}
+    
+    /* AI Connections */
+    .ai-connections{z-index:0}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
     @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
@@ -324,10 +336,45 @@
     <a href="#contact" class="btn-primary" style="margin-top:16px"><i class="fas fa-calendar-check"></i> Book a Free Strategy Call</a>
   </div>
   <main class="content">
-    <section class="hero section visible" id="hero">
-      <div class="hero-visual" aria-hidden="true"></div>
-      <div class="hero-grid-lines" aria-hidden="true"></div>
-      <div class="hero-content">
+    <!-- ============================================ -->
+    <!-- HERO SECTION — AI Visual Upgrade               -->
+    <!-- ============================================ -->
+    <section class="hero section visible" id="hero" style="position:relative;overflow:hidden;">
+      <!-- AI Neural Network Background -->
+      <div class="ai-bg" aria-hidden="true">
+        <canvas id="aiCanvas" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.4;pointer-events:none;"></canvas>
+      </div>
+
+      <!-- Floating AI Nodes (CSS-only, no JS needed) -->
+      <div class="ai-nodes" aria-hidden="true">
+        <div class="node" style="top:15%;left:10%;animation-delay:0s;"><span>AI</span></div>
+        <div class="node" style="top:25%;left:85%;animation-delay:2s;"><span>ML</span></div>
+        <div class="node" style="top:60%;left:5%;animation-delay:4s;"><span>NLP</span></div>
+        <div class="node" style="top:70%;left:90%;animation-delay:1s;"><span>Auto</span></div>
+        <div class="node" style="top:40%;left:95%;animation-delay:3s;"><span>Bot</span></div>
+        <div class="node" style="top:80%;left:20%;animation-delay:5s;"><span>Data</span></div>
+      </div>
+
+      <!-- Connection Lines SVG -->
+      <svg class="ai-connections" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.15;">
+        <line x1="10%" y1="15%" x2="85%" y2="25%" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,8">
+          <animate attributeName="stroke-dashoffset" from="0" to="12" dur="3s" repeatCount="indefinite"/>
+        </line>
+        <line x1="85%" y1="25%" x2="5%" y2="60%" stroke="#60a5fa" stroke-width="1" stroke-dasharray="4,8">
+          <animate attributeName="stroke-dashoffset" from="0" to="12" dur="4s" repeatCount="indefinite"/>
+        </line>
+        <line x1="5%" y1="60%" x2="90%" y2="70%" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,8">
+          <animate attributeName="stroke-dashoffset" from="0" to="12" dur="3.5s" repeatCount="indefinite"/>
+        </line>
+        <line x1="90%" y1="70%" x2="20%" y2="80%" stroke="#60a5fa" stroke-width="1" stroke-dasharray="4,8">
+          <animate attributeName="stroke-dashoffset" from="0" to="12" dur="2.5s" repeatCount="indefinite"/>
+        </line>
+        <line x1="20%" y1="80%" x2="10%" y2="15%" stroke="#2563eb" stroke-width="1" stroke-dasharray="4,8">
+          <animate attributeName="stroke-dashoffset" from="0" to="12" dur="5s" repeatCount="indefinite"/>
+        </line>
+      </svg>
+
+      <div class="hero-content" style="position:relative;z-index:2;">
         <div class="hero-top-bar">
           <div class="hero-accent-line"></div>
           <span class="hero-label">Digital Strategist & AI Consultant</span>
@@ -627,7 +674,17 @@
     function updateFaqSchema(){const items=document.querySelectorAll('.faq-item'),me=[];items.forEach(item=>{const q=item.querySelector('.faq-question span').textContent,a=item.querySelector('.faq-answer p').textContent;me.push({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}})});document.getElementById('faqSchema').textContent=JSON.stringify({'@context':'https://schema.org','@type':'FAQPage','mainEntity':me})}
     function initThemeToggle(){const t=document.getElementById('themeToggle'),i=document.getElementById('themeIcon'),saved=localStorage.getItem('theme');if(saved){document.documentElement.setAttribute('data-theme',saved);i.className=saved==='light'?'fas fa-sun':'fas fa-moon'}t.addEventListener('click',()=>{const current=document.documentElement.getAttribute('data-theme')||'dark';const next=current==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);localStorage.setItem('theme',next);i.className=next==='light'?'fas fa-sun':'fas fa-moon'})}
     function switchTab(tab){document.querySelectorAll('.contact-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));document.querySelectorAll('.contact-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab))}
-    document.addEventListener('DOMContentLoaded',()=>{createStars();createParticles();handleNavbarScroll();initMobileMenu();initSectionReveal();initStatsCounter();initFaqAccordion();initBackToTop();initForm();updateFaqSchema();initThemeToggle()});
+    function initAiCanvas(){
+      const canvas=document.getElementById('aiCanvas');
+      if(!canvas)return;
+      const ctx=canvas.getContext('2d');
+      let w,h,nodes=[];
+      function resize(){w=canvas.width=canvas.offsetWidth;h=canvas.height=canvas.offsetHeight}
+      function initNodes(){nodes=[];const count=Math.floor(w*h/25000);for(let i=0;i<count;i++){nodes.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5})}}
+      function draw(){ctx.clearRect(0,0,w,h);ctx.fillStyle='rgba(59,130,246,0.5)';nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>w)n.vx*=-1;if(n.y<0||n.y>h)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill()});for(let i=0;i<nodes.length;i++){for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.strokeStyle=`rgba(59,130,246,${0.15*(1-d/120)})`;ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke()}}}requestAnimationFrame(draw)}
+      resize();initNodes();draw();window.addEventListener('resize',()=>{resize();initNodes()})
+    }
+    document.addEventListener('DOMContentLoaded',()=>{createStars();createParticles();initAiCanvas();handleNavbarScroll();initMobileMenu();initSectionReveal();initStatsCounter();initFaqAccordion();initBackToTop();initForm();updateFaqSchema();initThemeToggle()});
     window.addEventListener('scroll',handleNavbarScroll);
   </script>
 </body>
