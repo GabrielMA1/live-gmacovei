@@ -87,6 +87,8 @@
     @keyframes twinkle{0%,100%{opacity:0}50%{opacity:1}}
     @keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(30px);opacity:0}}
     @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:1}}
+    @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+    @keyframes orbit{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
     @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
     @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -324,27 +326,96 @@
     <a href="#contact" class="btn-primary" style="margin-top:16px"><i class="fas fa-calendar-check"></i> Book a Free Strategy Call</a>
   </div>
   <main class="content">
-    <section class="hero section visible" id="hero">
-      <div class="hero-visual" aria-hidden="true"></div>
-      <div class="hero-grid-lines" aria-hidden="true"></div>
-      <div class="hero-content">
-        <div class="hero-top-bar">
-          <div class="hero-accent-line"></div>
-          <span class="hero-label">Digital Strategist & AI Consultant</span>
+    <!-- ============================================ -->
+    <!-- HERO SECTION — Redesigned 2026                 -->
+    <!-- ============================================ -->
+    <section class="hero section visible" id="hero" style="position:relative;overflow:hidden;">
+      <!-- Background Glow -->
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute w-[600px] h-[600px] rounded-full opacity-20" style="background:radial-gradient(circle,rgba(59,130,246,0.3) 0%,transparent 70%);top:-10%;right:-5%;filter:blur(60px);"></div>
+        <div class="absolute w-[400px] h-[400px] rounded-full opacity-15" style="background:radial-gradient(circle,rgba(37,99,235,0.25) 0%,transparent 70%);bottom:10%;left:-10%;filter:blur(80px);"></div>
+      </div>
+
+      <div class="hero-content" style="position:relative;z-index:2;">
+        <!-- Animated Badge -->
+        <div class="hero-top-bar" style="margin-bottom:24px;">
+          <div style="display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:50px;border:1px solid rgba(59,130,246,0.25);background:rgba(59,130,246,0.08);backdrop-filter:blur(8px);">
+            <span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;animation:pulse-dot 2s ease-in-out infinite;"></span>
+            <span style="font-size:13px;font-weight:500;color:var(--accent-light);letter-spacing:0.02em;">Available for select projects · 2026</span>
+          </div>
         </div>
-        <h1 class="hero-name"><span>Gabriel</span><br>Macovei</h1>
-        <p class="hero-slogan">AI integration, Digital Presence, and Advertising</p>
-        <p class="hero-desc">Helping Toronto-area businesses grow with smart automation, brand presence, and targeted advertising. From AI-powered workflows to data-driven campaigns, I build solutions that deliver real results.</p>
-        <div class="hero-cta-row">
-          <a href="#contact" class="btn-primary"><i class="fas fa-calendar-check"></i> Book a Free Strategy Call</a>
-          <a href="#projects" class="btn-outline">View My Work <i class="fas fa-arrow-right"></i></a>
+
+        <!-- Main Headline -->
+        <h1 class="hero-name" style="margin-bottom:20px;line-height:1.05;">
+          <span>Build a digital</span><br>
+          <span>presence that</span><br>
+          <span style="background:linear-gradient(135deg,var(--accent-light) 0%,#60a5fa 50%,var(--accent-blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">wins.</span><br>
+          <span>AI integration +</span><br>
+          <span>ads that</span><br>
+          <span style="background:linear-gradient(135deg,#60a5fa 0%,var(--accent-light) 50%,var(--accent-blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">scale revenue.</span>
+        </h1>
+
+        <!-- Description -->
+        <p class="hero-desc" style="max-width:520px;font-size:17px;line-height:1.7;margin-bottom:32px;">
+          I help ambitious businesses grow through modern digital presence, AI-powered operations, and performance marketing — built as systems, not one-off campaigns.
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-cta-row" style="margin-bottom:48px;">
+          <a href="#contact" class="btn-primary" style="padding:16px 32px;font-size:15px;">
+            <i class="fas fa-calendar-check" style="margin-right:8px;"></i> Book Consultation
+            <i class="fas fa-arrow-right" style="margin-left:8px;font-size:12px;"></i>
+          </a>
+          <a href="#projects" class="btn-outline" style="padding:16px 32px;font-size:15px;">
+            View Projects
+          </a>
         </div>
-        <div class="hero-stats" id="heroStats">
-          <div class="hero-stat"><span class="hero-stat-number" data-target="50" data-suffix="+">0</span><span class="hero-stat-label">Projects Done</span></div>
-          <div class="hero-stat"><span class="hero-stat-number" data-target="2" data-suffix="">0</span><span class="hero-stat-label">Businesses Built</span></div>
-          <div class="hero-stat"><span class="hero-stat-number" data-text="5-Star">5-Star</span><span class="hero-stat-label">Client Rating</span></div>
+
+        <!-- Stats -->
+        <div class="hero-stats" id="heroStats" style="display:flex;gap:48px;flex-wrap:wrap;">
+          <div class="hero-stat">
+            <span class="hero-stat-number" style="font-size:36px;font-weight:800;color:var(--text-primary);letter-spacing:-0.02em;" data-target="5" data-suffix="+">0</span>
+            <span class="hero-stat-label" style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;display:block;">Years Building</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-number" style="font-size:36px;font-weight:800;color:var(--text-primary);letter-spacing:-0.02em;" data-target="2" data-suffix="">0</span>
+            <span class="hero-stat-label" style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;display:block;">Ventures Founded</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-number" style="font-size:36px;font-weight:800;color:var(--text-primary);letter-spacing:-0.02em;" data-target="50" data-suffix="+">0</span>
+            <span class="hero-stat-label" style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;display:block;">Projects Delivered</span>
+          </div>
         </div>
       </div>
+
+      <!-- Right Side — GM Circle with Orbiting Labels -->
+      <div class="hidden lg:block absolute right-[8%] top-1/2 -translate-y-1/2" style="width:380px;height:380px;" aria-hidden="true">
+        <!-- Outer glow -->
+        <div class="absolute inset-0 rounded-full opacity-30" style="background:radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%);filter:blur(40px);"></div>
+        
+        <!-- Main circle -->
+        <div class="relative w-full h-full rounded-full flex items-center justify-center" style="border:1px solid rgba(59,130,246,0.15);background:rgba(10,20,38,0.4);backdrop-filter:blur(12px);">
+          <span style="font-size:120px;font-weight:900;background:linear-gradient(135deg,var(--accent-light) 0%,var(--accent-blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.04em;">GM</span>
+        </div>
+
+        <!-- Orbiting labels -->
+        <div class="absolute inset-0" style="animation:orbit 20s linear infinite;">
+          <div class="absolute" style="top:10%;left:50%;transform:translateX(-50%);padding:6px 14px;border-radius:20px;border:1px solid rgba(59,130,246,0.2);background:rgba(10,20,38,0.6);font-size:12px;font-weight:500;color:var(--accent-light);white-space:nowrap;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-blue);margin-right:6px;vertical-align:middle;"></span>Digital Presence
+          </div>
+        </div>
+        <div class="absolute inset-0" style="animation:orbit 20s linear infinite;animation-delay:-6.67s;">
+          <div class="absolute" style="bottom:15%;right:5%;padding:6px 14px;border-radius:20px;border:1px solid rgba(59,130,246,0.2);background:rgba(10,20,38,0.6);font-size:12px;font-weight:500;color:var(--accent-light);white-space:nowrap;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-blue);margin-right:6px;vertical-align:middle;"></span>AI Integration
+          </div>
+        </div>
+        <div class="absolute inset-0" style="animation:orbit 20s linear infinite;animation-delay:-13.33s;">
+          <div class="absolute" style="bottom:20%;left:5%;padding:6px 14px;border-radius:20px;border:1px solid rgba(59,130,246,0.2);background:rgba(10,20,38,0.6);font-size:12px;font-weight:500;color:var(--accent-light);white-space:nowrap;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-blue);margin-right:6px;vertical-align:middle;"></span>Performance Ads
+          </div>
+        </div>
+      </div>
+
       <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
     </section>
 
