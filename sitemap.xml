@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://gmacovei.com/</loc>
     <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://gmacovei.com/images/gabriel-macovei-og.jpg</image:loc>
+      <image:title>Gabriel Macovei - Digital Strategist and AI Consultant in Toronto</image:title>
+      <image:caption>Personal brand and digital strategy services by Gabriel Macovei</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://gmacovei.com/blog/</loc>
     <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://gmacovei.com/images/rielart.jpg</image:loc>
+      <image:title>Gabriel Macovei Blog - AI, Digital Strategy and Advertising</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://gmacovei.com/blog/ai-chatbots-cut-support-costs/</loc>
     <lastmod>2026-04-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://gmacovei.com/images/rielart.jpg</image:loc>
+      <image:title>How AI Chatbots Cut Customer Support Costs by 40%</image:title>
+      <image:caption>AI automation strategies for reducing support overhead</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://gmacovei.com/blog/direct-mail-outperforms-digital-ads-toronto/</loc>
     <lastmod>2026-04-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://gmacovei.com/images/spotix.jpg</image:loc>
+      <image:title>Why Direct Mail Still Outperforms Digital Ads in Toronto</image:title>
+      <image:caption>Spotix direct mail advertising platform for Toronto neighborhoods</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://gmacovei.com/blog/website-costing-you-leads/</loc>
     <lastmod>2026-04-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://gmacovei.com/images/rielart.jpg</image:loc>
+      <image:title>5 Signs Your Website Is Costing You Leads</image:title>
+      <image:caption>Web design and conversion optimization insights</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://gmacovei.com/privacy-policy/</loc>
