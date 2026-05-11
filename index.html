@@ -132,21 +132,21 @@
 
     .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:100px 24px 80px;overflow:hidden}
     
-    /* Globe Neural Network Background */
-    .globe-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-    #globeCanvas{position:absolute;width:100%;height:100%;top:0;left:0;opacity:.9}
-    .globe-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 65% 50%,transparent 0%,var(--bg-deep) 65%);pointer-events:none;z-index:1}
-    .globe-overlay{position:absolute;inset:0;background:linear-gradient(90deg,var(--bg-deep) 0%,transparent 40%,transparent 60%,var(--bg-deep) 100%);pointer-events:none;z-index:2}
+    /* Globe Background */
+    .globe-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#02040a}
+    #globeCanvas{position:absolute;width:100%;height:100%;top:0;left:0}
+    .globe-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 55% 50%,transparent 0%,#02040a 55%);pointer-events:none;z-index:1}
+    .globe-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#02040a 0%,transparent 35%,transparent 55%,#02040a 100%);pointer-events:none;z-index:2}
     
-    /* Keep existing grid lines but subtle */
-    .hero-grid-lines{position:absolute;inset:0;pointer-events:none;opacity:calc(var(--grid-opacity) * .3);background-image:linear-gradient(rgba(59,130,246,1) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,1) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at 70% 50%,black 0%,transparent 60%);-webkit-mask-image:radial-gradient(ellipse at 70% 50%,black 0%,transparent 60%);transition:opacity .3s ease;z-index:3}
+    /* Remove grid lines - too cluttered with globe */
+    .hero-grid-lines{display:none}
     
     /* Hero text readability */
     .hero-content{position:relative;z-index:10;max-width:1200px;margin:0 auto;width:100%}
-    .hero-name{text-shadow:0 2px 40px rgba(6,11,20,.8)}
-    .hero-slogan{text-shadow:0 2px 30px rgba(6,11,20,.8)}
-    .hero-desc{text-shadow:0 2px 20px rgba(6,11,20,.8)}
-    .hero-label{text-shadow:0 2px 20px rgba(6,11,20,.8)}
+    .hero-name{text-shadow:0 4px 60px rgba(2,4,10,.9),0 0 120px rgba(2,4,10,.5)}
+    .hero-slogan{text-shadow:0 2px 40px rgba(2,4,10,.9)}
+    .hero-desc{text-shadow:0 2px 30px rgba(2,4,10,.9)}
+    .hero-label{text-shadow:0 2px 30px rgba(2,4,10,.9)}
     .hero-content{max-width:1200px;margin:0 auto;width:100%;position:relative;z-index:1}
     .hero-top-bar{display:flex;align-items:center;gap:16px;margin-bottom:32px}
     .hero-accent-line{width:48px;height:2px;background:linear-gradient(90deg,var(--accent-blue),transparent)}
@@ -650,7 +650,7 @@
     function initSectionReveal(){const o=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.section').forEach(s=>o.observe(s))}
     function initStatsCounter(){const el=document.getElementById('heroStats'),nums=el.querySelectorAll('.hero-stat-number');let done=false;const o=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting&&!done){done=true;nums.forEach(n=>{const t=parseInt(n.getAttribute('data-target')||'0'),s=n.getAttribute('data-suffix')||'',tv=n.getAttribute('data-text');if(tv){n.textContent=tv;n.style.opacity='0';n.style.animation='countUp 0.6s ease forwards';return}let c=0;const dur=1500,st=t/(dur/16);const tm=setInterval(()=>{c+=st;if(c>=t){c=t;clearInterval(tm)}n.textContent=Math.floor(c)+s},16)})}})},{threshold:0.5});o.observe(el)}
 
-    /* Procedural Earth Globe Canvas */
+    /* Realistic Earth Globe Canvas - Matching LinkedIn Banner */
     function initGlobeNetwork(){
       const canvas=document.getElementById('globeCanvas');
       if(!canvas)return;
@@ -667,65 +667,121 @@
       resize();
       window.addEventListener('resize',resize);
       
-      // Globe parameters
-      const globeCenterX=width*.68;
+      const globeCenterX=width*.62;
       const globeCenterY=height*.5;
-      const globeRadius=Math.min(width,height)*.38;
+      const globeRadius=Math.min(width,height)*.42;
       
-      // Generate continent-like landmass points (simplified world map)
-      function generateContinents(){
-        const points=[];
+      // Realistic continent outlines (simplified lat/lon coordinate sets)
+      const continents=[
         // North America
-        for(let i=0;i<80;i++){
-          const lat=25+Math.random()*55;
-          const lon=-130+Math.random()*60;
-          points.push({lat,lon});
-        }
+        {lat:70,lon:-100},{lat:75,lon:-90},{lat:70,lon:-60},{lat:60,lon:-50},
+        {lat:50,lon:-55},{lat:45,lon:-60},{lat:40,lon:-70},{lat:35,lon:-75},
+        {lat:30,lon:-80},{lat:25,lon:-80},{lat:25,lon:-97},{lat:30,lon:-104},
+        {lat:35,lon:-120},{lat:40,lon:-125},{lat:45,lon:-125},{lat:50,lon:-127},
+        {lat:55,lon:-130},{lat:60,lon:-140},{lat:65,lon:-140},{lat:70,lon:-130},
+        // Fill density for North America
+        ...Array.from({length:300},()=>({
+          lat:25+Math.random()*50,
+          lon:-140+Math.random()*80
+        })).filter(p=>{
+          // Rough shape filter
+          const d=Math.hypot((p.lat-50)/25,(p.lon+100)/40);
+          return d<1.2||Math.random()<.3;
+        }),
+        
         // South America
-        for(let i=0;i<50;i++){
-          const lat=-55+Math.random()*65;
-          const lon=-85+Math.random()*40;
-          points.push({lat,lon});
-        }
+        {lat:10,lon:-70},{lat:5,lon:-60},{lat:0,lon:-50},{lat:-5,lon:-35},
+        {lat:-10,lon:-35},{lat:-15,lon:-40},{lat:-20,lon:-40},{lat:-25,lon:-45},
+        {lat:-30,lon:-50},{lat:-35,lon:-55},{lat:-40,lon:-65},{lat:-45,lon:-75},
+        {lat:-50,lon:-75},{lat:-55,lon:-70},{lat:-50,lon:-65},{lat:-20,lon:-70},
+        {lat:-10,lon:-75},{lat:0,lon:-80},{lat:5,lon:-80},{lat:10,lon:-75},
+        ...Array.from({length:200},()=>({
+          lat:-55+Math.random()*65,
+          lon:-85+Math.random()*50
+        })).filter(p=>{
+          const d=Math.hypot((p.lat+15)/30,(p.lon+60)/25);
+          return d<1.3||Math.random()<.2;
+        }),
+        
         // Europe
-        for(let i=0;i<45;i++){
-          const lat=35+Math.random()*35;
-          const lon=-15+Math.random()*50;
-          points.push({lat,lon});
-        }
+        {lat:70,lon:25},{lat:75,lon:40},{lat:70,lon:50},{lat:60,lon:30},
+        {lat:55,lon:10},{lat:50,lon:0},{lat:45,lon:-10},{lat:40,lon:-10},
+        {lat:35,lon:10},{lat:40,lon:20},{lat:45,lon:25},{lat:50,lon:30},
+        {lat:55,lon:35},{lat:60,lon:40},{lat:65,lon:30},{lat:70,lon:20},
+        ...Array.from({length:150},()=>({
+          lat:35+Math.random()*40,
+          lon:-15+Math.random()*65
+        })).filter(p=>{
+          const d=Math.hypot((p.lat-55)/20,(p.lon-20)/35);
+          return d<1.1||Math.random()<.25;
+        }),
+        
         // Africa
-        for(let i=0;i<60;i++){
-          const lat=-35+Math.random()*75;
-          const lon=-20+Math.random()*60;
-          points.push({lat,lon});
-        }
+        {lat:35,lon:-10},{lat:30,lon:10},{lat:25,lon:20},{lat:15,lon:35},
+        {lat:5,lon:40},{lat:0,lon:35},{lat:-5,lon:30},{lat:-10,lon:25},
+        {lat:-15,lon:20},{lat:-20,lon:25},{lat:-25,lon:30},{lat:-30,lon:35},
+        {lat:-35,lon:25},{lat:-30,lon:15},{lat:-25,lon:10},{lat:-20,lon:10},
+        {lat:-15,lon:0},{lat:-10,lon:-10},{lat:0,lon:-15},{lat:10,lon:-15},
+        {lat:20,lon:-15},{lat:30,lon:-10},{lat:35,lon:-5},{lat:35,lon:-10},
+        ...Array.from({length:250},()=>({
+          lat:-35+Math.random()*70,
+          lon:-20+Math.random()*60
+        })).filter(p=>{
+          const d=Math.hypot((p.lat-5)/35,(p.lon+5)/30);
+          return d<1.2||Math.random()<.2;
+        }),
+        
         // Asia
-        for(let i=0;i<100;i++){
-          const lat=5+Math.random()*75;
-          const lon=60+Math.random()*90;
-          points.push({lat,lon});
-        }
+        {lat:70,lon:60},{lat:75,lon:100},{lat:70,lon:170},{lat:60,lon:180},
+        {lat:50,lon:160},{lat:40,lon:140},{lat:30,lon:120},{lat:20,lon:110},
+        {lat:10,lon:105},{lat:0,lon:100},{lat:-5,lon:105},{lat:0,lon:115},
+        {lat:10,lon:120},{lat:20,lon:130},{lat:30,lon:135},{lat:40,lon:130},
+        {lat:50,lon:140},{lat:55,lon:160},{lat:60,lon:170},{lat:65,lon:170},
+        {lat:70,lon:150},{lat:75,lon:130},{lat:70,lon:100},{lat:65,lon:80},
+        {lat:60,lon:70},{lat:55,lon:60},{lat:60,lon:60},{lat:70,lon:60},
+        ...Array.from({length:400},()=>({
+          lat:0+Math.random()*75,
+          lon:60+Math.random()*120
+        })).filter(p=>{
+          const d=Math.hypot((p.lat-40)/35,(p.lon-110)/55);
+          return d<1.3||Math.random()<.15;
+        }),
+        
         // Australia
-        for(let i=0;i<25;i++){
-          const lat=-40+Math.random()*35;
-          const lon=110+Math.random()*40;
-          points.push({lat,lon});
-        }
-        // Extra scattered points for density
-        for(let i=0;i<200;i++){
-          points.push({
-            lat:-70+Math.random()*140,
-            lon:-180+Math.random()*360
-          });
-        }
-        return points;
-      }
+        {lat:-10,lon:130},{lat:-15,lon:125},{lat:-20,lon:120},{lat:-25,lon:115},
+        {lat:-30,lon:115},{lat:-35,lon:120},{lat:-38,lon:130},{lat:-35,lon:140},
+        {lat:-30,lon:145},{lat:-25,lon:150},{lat:-20,lon:150},{lat:-15,lon:145},
+        {lat:-10,lon:140},{lat:-10,lon:130},
+        ...Array.from({length:80},()=>({
+          lat:-40+Math.random()*30,
+          lon:110+Math.random()*40
+        })).filter(p=>{
+          const d=Math.hypot((p.lat+25)/15,(p.lon-135)/20);
+          return d<1.1||Math.random()<.3;
+        }),
+        
+        // Japan/Korea extra density
+        ...Array.from({length:40},()=>({
+          lat:30+Math.random()*15,
+          lon:125+Math.random()*25
+        })),
+        
+        // India extra density
+        ...Array.from({length:60},()=>({
+          lat:8+Math.random()*25,
+          lon:68+Math.random()*25
+        })),
+        
+        // Southeast Asia
+        ...Array.from({length:50},()=>({
+          lat:0+Math.random()*20,
+          lon:95+Math.random()*25
+        }))
+      ];
       
-      const cityLights=generateContinents();
-      let rotation=0;
-      const rotationSpeed=.0004; // Slow, elegant auto-rotation
+      let rotation=-20; // Start with Africa/Europe visible like your banner
+      const rotationSpeed=.15; // degrees per frame
       
-      // 3D to 2D projection
       function project(lat,lon,radius,rot){
         const latRad=lat*Math.PI/180;
         const lonRad=(lon+rot)*Math.PI/180;
@@ -736,152 +792,188 @@
       }
       
       function animate(){
-        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle='#02040a';
+        ctx.fillRect(0,0,width,height);
         
-        rotation+=rotationSpeed*60; // degrees per frame at 60fps
+        rotation+=rotationSpeed;
         
-        // Draw dark ocean base
-        const oceanGrad=ctx.createRadialGradient(
-          globeCenterX-globeRadius*.3,globeCenterY-globeRadius*.3,0,
-          globeCenterX,globeCenterY,globeRadius
-        );
-        oceanGrad.addColorStop(0,'rgba(20,30,60,.9)');
-        oceanGrad.addColorStop(.7,'rgba(10,15,35,.95)');
-        oceanGrad.addColorStop(1,'rgba(5,8,20,1)');
-        
+        // Base globe - very dark navy
         ctx.beginPath();
         ctx.arc(globeCenterX,globeCenterY,globeRadius,0,Math.PI*2);
-        ctx.fillStyle=oceanGrad;
+        const baseGrad=ctx.createRadialGradient(
+          globeCenterX-globeRadius*.2,globeCenterY-globeRadius*.3,0,
+          globeCenterX,globeCenterY,globeRadius
+        );
+        baseGrad.addColorStop(0,'rgba(15,25,55,.6)');
+        baseGrad.addColorStop(.5,'rgba(8,15,35,.8)');
+        baseGrad.addColorStop(1,'rgba(3,6,20,1)');
+        ctx.fillStyle=baseGrad;
         ctx.fill();
         
-        // Draw city lights (only front-facing)
-        const visibleLights=[];
-        cityLights.forEach(light=>{
-          const p=project(light.lat,light.lon,globeRadius,rotation);
-          if(p.z>0){ // Front-facing
-            visibleLights.push({
-              x:globeCenterX+p.x,
-              y:globeCenterY-p.y,
-              z:p.z,
-              brightness:.3+.7*(p.z/globeRadius)
-            });
-          }
+        // Process all points
+        const allPoints=continents.map(p=>({
+          ...project(p.lat,p.lon,globeRadius,rotation),
+          lat:p.lat,lon:p.lon
+        })).filter(p=>p.z>-globeRadius*.3); // Show slightly around edge
+        
+        // Sort by depth
+        allPoints.sort((a,b)=>a.z-b.z);
+        
+        // Draw faint continent base (dark landmass)
+        allPoints.forEach(p=>{
+          if(p.z<0)return;
+          const depth=p.z/globeRadius;
+          const alpha=.03+.04*depth;
+          const size=1.5+depth*1.5;
+          
+          ctx.beginPath();
+          ctx.arc(globeCenterX+p.x,globeCenterY-p.y,size,0,Math.PI*2);
+          ctx.fillStyle=`rgba(40,60,100,${alpha})`;
+          ctx.fill();
         });
         
-        // Sort by z for proper depth
-        visibleLights.sort((a,b)=>a.z-b.z);
-        
-        // Draw connections between nearby lights (network mesh)
-        ctx.lineWidth=.4;
-        for(let i=0;i<visibleLights.length;i++){
-          for(let j=i+1;j<Math.min(i+8,visibleLights.length);j++){
-            const d=Math.hypot(visibleLights[i].x-visibleLights[j].x,visibleLights[i].y-visibleLights[j].y);
-            if(d<globeRadius*.15){
-              const alpha=.08*visibleLights[i].brightness*visibleLights[j].brightness;
+        // Draw connections (network mesh) - only between close points on front
+        ctx.lineWidth=.3;
+        for(let i=0;i<allPoints.length;i++){
+          if(allPoints[i].z<0)continue;
+          for(let j=i+1;j<Math.min(i+12,allPoints.length);j++){
+            if(allPoints[j].z<0)continue;
+            const dx=allPoints[i].x-allPoints[j].x;
+            const dy=allPoints[i].y-allPoints[j].y;
+            const d=Math.hypot(dx,dy);
+            if(d<globeRadius*.12){
+              const avgZ=(allPoints[i].z+allPoints[j].z)/2;
+              const alpha=.06*(avgZ/globeRadius);
               ctx.beginPath();
-              ctx.moveTo(visibleLights[i].x,visibleLights[i].y);
-              ctx.lineTo(visibleLights[j].x,visibleLights[j].y);
-              ctx.strokeStyle=`rgba(147,197,253,${alpha})`;
+              ctx.moveTo(globeCenterX+allPoints[i].x,globeCenterY-allPoints[i].y);
+              ctx.lineTo(globeCenterX+allPoints[j].x,globeCenterY-allPoints[j].y);
+              ctx.strokeStyle=`rgba(100,150,220,${alpha})`;
               ctx.stroke();
             }
           }
         }
         
-        // Draw light points
-        visibleLights.forEach(light=>{
-          const size=.8+light.brightness*2.5;
+        // Draw bright city lights
+        allPoints.forEach(p=>{
+          if(p.z<0)return;
+          const depth=p.z/globeRadius;
+          const brightness=.4+depth*.6;
+          const size=.5+depth*2;
           
-          // Glow
-          const glow=ctx.createRadialGradient(light.x,light.y,0,light.x,light.y,size*6);
-          glow.addColorStop(0,`rgba(200,220,255,${light.brightness*.15})`);
-          glow.addColorStop(.5,`rgba(147,197,253,${light.brightness*.05})`);
+          // Soft glow
+          const glow=ctx.createRadialGradient(
+            globeCenterX+p.x,globeCenterY-p.y,0,
+            globeCenterX+p.x,globeCenterY-p.y,size*5
+          );
+          glow.addColorStop(0,`rgba(200,220,255,${brightness*.12})`);
+          glow.addColorStop(.3,`rgba(150,190,255,${brightness*.06})`);
           glow.addColorStop(1,'rgba(59,130,246,0)');
           
           ctx.beginPath();
-          ctx.arc(light.x,light.y,size*6,0,Math.PI*2);
+          ctx.arc(globeCenterX+p.x,globeCenterY-p.y,size*5,0,Math.PI*2);
           ctx.fillStyle=glow;
           ctx.fill();
           
-          // Core point
+          // Bright core
           ctx.beginPath();
-          ctx.arc(light.x,light.y,size,0,Math.PI*2);
-          ctx.fillStyle=`rgba(220,235,255,${.4+light.brightness*.6})`;
+          ctx.arc(globeCenterX+p.x,globeCenterY-p.y,size*.7,0,Math.PI*2);
+          ctx.fillStyle=`rgba(230,245,255,${.5+brightness*.5})`;
           ctx.fill();
         });
         
-        // Atmospheric rim glow (crescent effect)
+        // Atmospheric rim light - the bright crescent edge
+        const rimX=globeCenterX-globeRadius*.35;
+        const rimY=globeCenterY-globeRadius*.25;
+        
         const rimGrad=ctx.createRadialGradient(
-          globeCenterX-globeRadius*.5,globeCenterY-globeRadius*.2,globeRadius*.8,
-          globeCenterX,globeCenterY,globeRadius
+          rimX,rimY,globeRadius*.5,
+          rimX,rimY,globeRadius*1.1
         );
-        rimGrad.addColorStop(0,'rgba(96,165,250,0)');
-        rimGrad.addColorStop(.85,'rgba(96,165,250,0)');
-        rimGrad.addColorStop(.95,'rgba(147,197,253,.3)');
-        rimGrad.addColorStop(1,'rgba(200,230,255,.5)');
+        rimGrad.addColorStop(0,'rgba(100,160,255,0)');
+        rimGrad.addColorStop(.6,'rgba(120,180,255,0)');
+        rimGrad.addColorStop(.85,'rgba(180,210,255,.15)');
+        rimGrad.addColorStop(.95,'rgba(220,235,255,.4)');
+        rimGrad.addColorStop(1,'rgba(255,255,255,.5)');
         
         ctx.beginPath();
         ctx.arc(globeCenterX,globeCenterY,globeRadius,0,Math.PI*2);
         ctx.fillStyle=rimGrad;
         ctx.fill();
         
-        // Outer atmosphere halo
-        const halo=ctx.createRadialGradient(globeCenterX,globeCenterY,globeRadius*.9,globeCenterX,globeCenterY,globeRadius*1.3);
-        halo.addColorStop(0,'rgba(59,130,246,.08)');
-        halo.addColorStop(.5,'rgba(37,99,235,.03)');
-        halo.addColorStop(1,'rgba(37,99,235,0)');
+        // Second rim pass for sharper highlight
+        const sharpRim=ctx.createRadialGradient(
+          rimX,rimY,globeRadius*.85,
+          rimX,rimY,globeRadius*1.02
+        );
+        sharpRim.addColorStop(0,'rgba(255,255,255,0)');
+        sharpRim.addColorStop(.9,'rgba(200,230,255,0)');
+        sharpRim.addColorStop(.97,'rgba(255,255,255,.6)');
+        sharpRim.addColorStop(1,'rgba(255,255,255,.8)');
         
         ctx.beginPath();
-        ctx.arc(globeCenterX,globeCenterY,globeRadius*1.3,0,Math.PI*2);
-        ctx.fillStyle=halo;
+        ctx.arc(globeCenterX,globeCenterY,globeRadius,0,Math.PI*2);
+        ctx.fillStyle=sharpRim;
         ctx.fill();
         
-        // Network nodes (square markers like your banner)
-        const nodeCount=24;
-        for(let i=0;i<nodeCount;i++){
-          const lat=-60+Math.random()*120;
-          const lon=-180+Math.random()*360;
-          const p=project(lat,lon,globeRadius*1.15,rotation);
+        // Outer space glow
+        const spaceGlow=ctx.createRadialGradient(
+          globeCenterX,globeCenterY,globeRadius,
+          globeCenterX,globeCenterY,globeRadius*1.5
+        );
+        spaceGlow.addColorStop(0,'rgba(59,130,246,.1)');
+        spaceGlow.addColorStop(.4,'rgba(37,99,235,.03)');
+        spaceGlow.addColorStop(1,'rgba(2,4,10,0)');
+        
+        ctx.beginPath();
+        ctx.arc(globeCenterX,globeCenterY,globeRadius*1.5,0,Math.PI*2);
+        ctx.fillStyle=spaceGlow;
+        ctx.fill();
+        
+        // Floating network nodes (squares) in space around globe
+        const spaceNodes=[
+          {lat:80,lon:30,dist:1.3},{lat:60,lon:-120,dist:1.4},{lat:40,lon:150,dist:1.35},
+          {lat:-30,lon:-60,dist:1.5},{lat:-50,lon:80,dist:1.4},{lat:10,lon:-170,dist:1.45},
+          {lat:70,lon:-40,dist:1.3},{lat:-20,lon:140,dist:1.5},{lat:50,lon:-90,dist:1.35},
+          {lat:-60,lon:-20,dist:1.4},{lat:30,lon:60,dist:1.5},{lat:-40,lon:-150,dist:1.3}
+        ];
+        
+        spaceNodes.forEach(node=>{
+          const p=project(node.lat,node.lon,globeRadius*node.dist,rotation);
           if(p.z>0){
             const x=globeCenterX+p.x;
             const y=globeCenterY-p.y;
-            const alpha=.15*(p.z/globeRadius);
+            const alpha=.2*(p.z/(globeRadius*node.dist));
             
-            // Small square node
-            ctx.fillStyle=`rgba(147,197,253,${alpha})`;
+            // Square node
+            ctx.fillStyle=`rgba(180,210,255,${alpha})`;
             ctx.fillRect(x-2,y-2,4,4);
             
-            // Connection line to globe surface
-            const surfaceP=project(lat,lon,globeRadius,rotation);
+            // Line to surface
+            const surf=project(node.lat,node.lon,globeRadius,rotation);
             ctx.beginPath();
             ctx.moveTo(x,y);
-            ctx.lineTo(globeCenterX+surfaceP.x,globeCenterY-surfaceP.y);
-            ctx.strokeStyle=`rgba(96,165,250,${alpha*.5})`;
-            ctx.lineWidth=.5;
+            ctx.lineTo(globeCenterX+surf.x,globeCenterY-surf.y);
+            ctx.strokeStyle=`rgba(120,170,255,${alpha*.4})`;
+            ctx.lineWidth=.4;
             ctx.stroke();
           }
-        }
+        });
         
-        // Traveling data packets along surface
-        const time=Date.now()*.0003;
-        for(let i=0;i<6;i++){
-          const lat1=-60+Math.random()*120;
-          const lon1=rotation+time*20+i*60;
-          const lat2=lat1+(Math.random()-.5)*40;
-          const lon2=lon1+20+Math.random()*40;
-          
-          const p1=project(lat1,lon1,globeRadius,rotation);
-          const p2=project(lat2,lon2,globeRadius,rotation);
-          
-          if(p1.z>0&&p2.z>0){
-            const t=(time+i)%1;
-            const x1=globeCenterX+p1.x,y1=globeCenterY-p1.y;
-            const x2=globeCenterX+p2.x,y2=globeCenterY-p2.y;
-            const x=x1+(x2-x1)*t;
-            const y=y1+(y2-y1)*t;
+        // Traveling data beacons
+        const time=Date.now()*.001;
+        for(let i=0;i<4;i++){
+          const lat=-30+Math.random()*80;
+          const lon=rotation+time*15+i*90;
+          const p=project(lat,lon,globeRadius*1.05,rotation);
+          if(p.z>0){
+            const t=(time*.3+i)%1;
+            const x=globeCenterX+p.x;
+            const y=globeCenterY-p.y;
+            const pulse=Math.sin(t*Math.PI);
             
             ctx.beginPath();
-            ctx.arc(x,y,2.5,0,Math.PI*2);
-            ctx.fillStyle=`rgba(147,197,253,${.6*(1-Math.abs(t-.5)*2)})`;
+            ctx.arc(x,y,2+pulse*2,0,Math.PI*2);
+            ctx.fillStyle=`rgba(147,197,253,${pulse*.7})`;
             ctx.fill();
           }
         }
