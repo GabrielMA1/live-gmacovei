@@ -650,7 +650,7 @@
     function initSectionReveal(){const o=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.section').forEach(s=>o.observe(s))}
     function initStatsCounter(){const el=document.getElementById('heroStats'),nums=el.querySelectorAll('.hero-stat-number');let done=false;const o=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting&&!done){done=true;nums.forEach(n=>{const t=parseInt(n.getAttribute('data-target')||'0'),s=n.getAttribute('data-suffix')||'',tv=n.getAttribute('data-text');if(tv){n.textContent=tv;n.style.opacity='0';n.style.animation='countUp 0.6s ease forwards';return}let c=0;const dur=1500,st=t/(dur/16);const tm=setInterval(()=>{c+=st;if(c>=t){c=t;clearInterval(tm)}n.textContent=Math.floor(c)+s},16)})}})},{threshold:0.5});o.observe(el)}
 
-    /* Globe Neural Network Canvas Animation */
+    /* Procedural Earth Globe Canvas */
     function initGlobeNetwork(){
       const canvas=document.getElementById('globeCanvas');
       if(!canvas)return;
@@ -668,144 +668,223 @@
       window.addEventListener('resize',resize);
       
       // Globe parameters
-      const globeCenterX=width*.7;
+      const globeCenterX=width*.68;
       const globeCenterY=height*.5;
-      const globeRadius=Math.min(width,height)*.35;
-      const nodeCount=180;
-      const connectionDistance=120;
+      const globeRadius=Math.min(width,height)*.38;
       
-      // Create nodes on sphere surface
-      const nodes=[];
-      for(let i=0;i<nodeCount;i++){
-        // Fibonacci sphere distribution for even spacing
-        const phi=Math.acos(1-2*(i+.5)/nodeCount);
-        const theta=Math.PI*(1+Math.sqrt(5))*(i+.5);
-        
-        const x=globeCenterX+globeRadius*Math.sin(phi)*Math.cos(theta);
-        const y=globeCenterY+globeRadius*Math.cos(phi);
-        const z=globeRadius*Math.sin(phi)*Math.sin(theta); // depth for rotation
-        
-        nodes.push({
-          x,y,z,
-          baseX:x,baseY:y,baseZ:z,
-          pulse:Math.random()*Math.PI*2,
-          pulseSpeed:.02+Math.random()*.03,
-          size:1+Math.random()*2
-        });
-      }
-      
-      // Find connections
-      const connections=[];
-      for(let i=0;i<nodes.length;i++){
-        for(let j=i+1;j<nodes.length;j++){
-          const dist=Math.hypot(nodes[i].x-nodes[j].x,nodes[i].y-nodes[j].y);
-          if(dist<connectionDistance){
-            connections.push({from:i,to:j,dist});
-          }
+      // Generate continent-like landmass points (simplified world map)
+      function generateContinents(){
+        const points=[];
+        // North America
+        for(let i=0;i<80;i++){
+          const lat=25+Math.random()*55;
+          const lon=-130+Math.random()*60;
+          points.push({lat,lon});
         }
+        // South America
+        for(let i=0;i<50;i++){
+          const lat=-55+Math.random()*65;
+          const lon=-85+Math.random()*40;
+          points.push({lat,lon});
+        }
+        // Europe
+        for(let i=0;i<45;i++){
+          const lat=35+Math.random()*35;
+          const lon=-15+Math.random()*50;
+          points.push({lat,lon});
+        }
+        // Africa
+        for(let i=0;i<60;i++){
+          const lat=-35+Math.random()*75;
+          const lon=-20+Math.random()*60;
+          points.push({lat,lon});
+        }
+        // Asia
+        for(let i=0;i<100;i++){
+          const lat=5+Math.random()*75;
+          const lon=60+Math.random()*90;
+          points.push({lat,lon});
+        }
+        // Australia
+        for(let i=0;i<25;i++){
+          const lat=-40+Math.random()*35;
+          const lon=110+Math.random()*40;
+          points.push({lat,lon});
+        }
+        // Extra scattered points for density
+        for(let i=0;i<200;i++){
+          points.push({
+            lat:-70+Math.random()*140,
+            lon:-180+Math.random()*360
+          });
+        }
+        return points;
       }
       
+      const cityLights=generateContinents();
       let rotation=0;
-      let mouseX=0,mouseY=0;
-      let targetRotationX=0,targetRotationY=0;
+      const rotationSpeed=.0004; // Slow, elegant auto-rotation
       
-      document.addEventListener('mousemove',(e)=>{
-        const rect=canvas.getBoundingClientRect();
-        mouseX=(e.clientX-rect.left)/rect.width;
-        mouseY=(e.clientY-rect.top)/rect.height;
-        targetRotationY=(mouseX-.5)*.3;
-        targetRotationX=(mouseY-.5)*.2;
-      });
+      // 3D to 2D projection
+      function project(lat,lon,radius,rot){
+        const latRad=lat*Math.PI/180;
+        const lonRad=(lon+rot)*Math.PI/180;
+        const x=Math.cos(latRad)*Math.sin(lonRad)*radius;
+        const y=Math.sin(latRad)*radius;
+        const z=Math.cos(latRad)*Math.cos(lonRad)*radius;
+        return {x,y,z};
+      }
       
       function animate(){
         ctx.clearRect(0,0,width,height);
         
-        // Subtle rotation
-        rotation+=.002;
+        rotation+=rotationSpeed*60; // degrees per frame at 60fps
         
-        // Update node positions with rotation
-        nodes.forEach(node=>{
-          node.pulse+=node.pulseSpeed;
-          
-          // Rotate around Y axis
-          const cosR=Math.cos(rotation);
-          const sinR=Math.sin(rotation);
-          const rx=node.baseX-globeCenterX;
-          const rz=node.baseZ;
-          const rotX=rx*cosR-rz*sinR+globeCenterX;
-          const rotZ=rx*sinR+rz*cosR;
-          
-          // Apply mouse tilt
-          const tiltX=rotX+(node.baseY-globeCenterY)*targetRotationX*.5;
-          const tiltY=node.baseY+(rotX-globeCenterX)*targetRotationY*.3;
-          
-          node.x=tiltX;
-          node.y=tiltY;
-          node.z=rotZ;
+        // Draw dark ocean base
+        const oceanGrad=ctx.createRadialGradient(
+          globeCenterX-globeRadius*.3,globeCenterY-globeRadius*.3,0,
+          globeCenterX,globeCenterY,globeRadius
+        );
+        oceanGrad.addColorStop(0,'rgba(20,30,60,.9)');
+        oceanGrad.addColorStop(.7,'rgba(10,15,35,.95)');
+        oceanGrad.addColorStop(1,'rgba(5,8,20,1)');
+        
+        ctx.beginPath();
+        ctx.arc(globeCenterX,globeCenterY,globeRadius,0,Math.PI*2);
+        ctx.fillStyle=oceanGrad;
+        ctx.fill();
+        
+        // Draw city lights (only front-facing)
+        const visibleLights=[];
+        cityLights.forEach(light=>{
+          const p=project(light.lat,light.lon,globeRadius,rotation);
+          if(p.z>0){ // Front-facing
+            visibleLights.push({
+              x:globeCenterX+p.x,
+              y:globeCenterY-p.y,
+              z:p.z,
+              brightness:.3+.7*(p.z/globeRadius)
+            });
+          }
         });
         
-        // Draw connections (back half, dimmer)
-        connections.forEach(conn=>{
-          const n1=nodes[conn.from];
-          const n2=nodes[conn.to];
-          const avgZ=(n1.z+n2.z)/2;
-          if(avgZ<0)return; // Skip back-facing
-          
-          const alpha=.15*(avgZ/globeRadius+.5);
-          const pulse=(Math.sin(n1.pulse)+1)*.5;
-          
-          ctx.beginPath();
-          ctx.moveTo(n1.x,n1.y);
-          ctx.lineTo(n2.x,n2.y);
-          ctx.strokeStyle=`rgba(96,165,250,${alpha*pulse})`;
-          ctx.lineWidth=.8;
-          ctx.stroke();
-        });
+        // Sort by z for proper depth
+        visibleLights.sort((a,b)=>a.z-b.z);
         
-        // Draw nodes
-        nodes.forEach(node=>{
-          const depth=(node.z/globeRadius+.5); // 0 to 1
-          const alpha=.3+depth*.7;
-          const pulse=Math.sin(node.pulse)*.5+.5;
-          const size=node.size*(.5+depth*.5);
+        // Draw connections between nearby lights (network mesh)
+        ctx.lineWidth=.4;
+        for(let i=0;i<visibleLights.length;i++){
+          for(let j=i+1;j<Math.min(i+8,visibleLights.length);j++){
+            const d=Math.hypot(visibleLights[i].x-visibleLights[j].x,visibleLights[i].y-visibleLights[j].y);
+            if(d<globeRadius*.15){
+              const alpha=.08*visibleLights[i].brightness*visibleLights[j].brightness;
+              ctx.beginPath();
+              ctx.moveTo(visibleLights[i].x,visibleLights[i].y);
+              ctx.lineTo(visibleLights[j].x,visibleLights[j].y);
+              ctx.strokeStyle=`rgba(147,197,253,${alpha})`;
+              ctx.stroke();
+            }
+          }
+        }
+        
+        // Draw light points
+        visibleLights.forEach(light=>{
+          const size=.8+light.brightness*2.5;
           
           // Glow
-          const gradient=ctx.createRadialGradient(node.x,node.y,0,node.x,node.y,size*4);
-          gradient.addColorStop(0,`rgba(96,165,250,${alpha*pulse*.6})`);
-          gradient.addColorStop(.5,`rgba(59,130,246,${alpha*pulse*.2})`);
-          gradient.addColorStop(1,'rgba(37,99,235,0)');
+          const glow=ctx.createRadialGradient(light.x,light.y,0,light.x,light.y,size*6);
+          glow.addColorStop(0,`rgba(200,220,255,${light.brightness*.15})`);
+          glow.addColorStop(.5,`rgba(147,197,253,${light.brightness*.05})`);
+          glow.addColorStop(1,'rgba(59,130,246,0)');
           
           ctx.beginPath();
-          ctx.arc(node.x,node.y,size*4,0,Math.PI*2);
-          ctx.fillStyle=gradient;
+          ctx.arc(light.x,light.y,size*6,0,Math.PI*2);
+          ctx.fillStyle=glow;
           ctx.fill();
           
-          // Core
+          // Core point
           ctx.beginPath();
-          ctx.arc(node.x,node.y,size,0,Math.PI*2);
-          ctx.fillStyle=`rgba(200,220,255,${alpha})`;
+          ctx.arc(light.x,light.y,size,0,Math.PI*2);
+          ctx.fillStyle=`rgba(220,235,255,${.4+light.brightness*.6})`;
           ctx.fill();
         });
         
-        // Draw data packets traveling along connections
-        const time=Date.now()*.001;
-        connections.forEach((conn,idx)=>{
-          if(idx%5!==0)return; // Only some connections have packets
-          const n1=nodes[conn.from];
-          const n2=nodes[conn.to];
-          const avgZ=(n1.z+n2.z)/2;
-          if(avgZ<0)return;
+        // Atmospheric rim glow (crescent effect)
+        const rimGrad=ctx.createRadialGradient(
+          globeCenterX-globeRadius*.5,globeCenterY-globeRadius*.2,globeRadius*.8,
+          globeCenterX,globeCenterY,globeRadius
+        );
+        rimGrad.addColorStop(0,'rgba(96,165,250,0)');
+        rimGrad.addColorStop(.85,'rgba(96,165,250,0)');
+        rimGrad.addColorStop(.95,'rgba(147,197,253,.3)');
+        rimGrad.addColorStop(1,'rgba(200,230,255,.5)');
+        
+        ctx.beginPath();
+        ctx.arc(globeCenterX,globeCenterY,globeRadius,0,Math.PI*2);
+        ctx.fillStyle=rimGrad;
+        ctx.fill();
+        
+        // Outer atmosphere halo
+        const halo=ctx.createRadialGradient(globeCenterX,globeCenterY,globeRadius*.9,globeCenterX,globeCenterY,globeRadius*1.3);
+        halo.addColorStop(0,'rgba(59,130,246,.08)');
+        halo.addColorStop(.5,'rgba(37,99,235,.03)');
+        halo.addColorStop(1,'rgba(37,99,235,0)');
+        
+        ctx.beginPath();
+        ctx.arc(globeCenterX,globeCenterY,globeRadius*1.3,0,Math.PI*2);
+        ctx.fillStyle=halo;
+        ctx.fill();
+        
+        // Network nodes (square markers like your banner)
+        const nodeCount=24;
+        for(let i=0;i<nodeCount;i++){
+          const lat=-60+Math.random()*120;
+          const lon=-180+Math.random()*360;
+          const p=project(lat,lon,globeRadius*1.15,rotation);
+          if(p.z>0){
+            const x=globeCenterX+p.x;
+            const y=globeCenterY-p.y;
+            const alpha=.15*(p.z/globeRadius);
+            
+            // Small square node
+            ctx.fillStyle=`rgba(147,197,253,${alpha})`;
+            ctx.fillRect(x-2,y-2,4,4);
+            
+            // Connection line to globe surface
+            const surfaceP=project(lat,lon,globeRadius,rotation);
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            ctx.lineTo(globeCenterX+surfaceP.x,globeCenterY-surfaceP.y);
+            ctx.strokeStyle=`rgba(96,165,250,${alpha*.5})`;
+            ctx.lineWidth=.5;
+            ctx.stroke();
+          }
+        }
+        
+        // Traveling data packets along surface
+        const time=Date.now()*.0003;
+        for(let i=0;i<6;i++){
+          const lat1=-60+Math.random()*120;
+          const lon1=rotation+time*20+i*60;
+          const lat2=lat1+(Math.random()-.5)*40;
+          const lon2=lon1+20+Math.random()*40;
           
-          const t=(time*.5+idx*.1)%1;
-          const x=n1.x+(n2.x-n1.x)*t;
-          const y=n1.y+(n2.y-n1.y)*t;
-          const alpha=(1-Math.abs(t-.5)*2)*(.3+avgZ/globeRadius*.7);
+          const p1=project(lat1,lon1,globeRadius,rotation);
+          const p2=project(lat2,lon2,globeRadius,rotation);
           
-          ctx.beginPath();
-          ctx.arc(x,y,2,0,Math.PI*2);
-          ctx.fillStyle=`rgba(147,197,253,${alpha})`;
-          ctx.fill();
-        });
+          if(p1.z>0&&p2.z>0){
+            const t=(time+i)%1;
+            const x1=globeCenterX+p1.x,y1=globeCenterY-p1.y;
+            const x2=globeCenterX+p2.x,y2=globeCenterY-p2.y;
+            const x=x1+(x2-x1)*t;
+            const y=y1+(y2-y1)*t;
+            
+            ctx.beginPath();
+            ctx.arc(x,y,2.5,0,Math.PI*2);
+            ctx.fillStyle=`rgba(147,197,253,${.6*(1-Math.abs(t-.5)*2)})`;
+            ctx.fill();
+          }
+        }
         
         requestAnimationFrame(animate);
       }
