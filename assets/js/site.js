@@ -38,15 +38,30 @@
   });
   mobilePanel?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 
-  document.querySelectorAll('[data-faq]').forEach(item => {
+  const faqItems = [...document.querySelectorAll('[data-faq]')];
+  faqItems.forEach(item => {
     const button = item.querySelector('.faq-question');
     button?.addEventListener('click', () => {
-      const open = item.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(open));
+      const willOpen = !item.classList.contains('open');
+      faqItems.forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
+      });
+      if (willOpen) {
+        item.classList.add('open');
+        button.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
+  requestAnimationFrame(() => document.body.classList.add('page-ready'));
+
   const revealItems = document.querySelectorAll('.reveal');
+  revealItems.forEach((el, index) => {
+    const siblings = [...(el.parentElement?.children || [])].filter(child => child.classList?.contains('reveal'));
+    const position = Math.max(0, siblings.indexOf(el));
+    el.style.setProperty('--reveal-delay', `${Math.min(position * 85, 255)}ms`);
+  });
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
