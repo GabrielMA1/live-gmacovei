@@ -1,15 +1,15 @@
-# GMACOVEI website
+# gmacovei.com — personal lobby
 
-Static website for gmacovei.com.
+Static website files. Deploy the contents of this folder at the domain root.
 
-## Structure
-- `index.html` — homepage
-- `assets/css/site.css` — shared styling and light/dark themes
-- `assets/js/site.js` — navigation, theme toggle, FAQ accordion, filters, and reveal animations
-- `images/` — site imagery
-- `blog/` — blog index and article pages
-- `privacy-policy/` and `terms-conditions/` — legal pages
+## Purpose
+This site is intentionally personal and concise. Business services, packages, booking, and insights live at https://rielart.com.
 
-Light mode is the default. A visitor's explicit theme selection is saved in local storage.
+## Redirects
+Legacy `/blog/` URLs contain static redirect pages and canonical links to their new RielArt locations. For strongest SEO, configure true 301 redirects at the CDN/hosting layer using the included `_redirects` file where supported.
 
-No build process is required. Upload the folder contents to the web root.
+## Editing
+- Main page: `index.html`
+- Shared styles: `assets/css/site.css`
+- Shared behavior: `assets/js/site.js`
+- Legal pages: `privacy-policy/`, `terms-conditions/`
