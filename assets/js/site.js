@@ -53,6 +53,31 @@
     });
   });
 
+  const contactTabs = [...document.querySelectorAll('[data-contact-tab]')];
+  const contactPanels = [...document.querySelectorAll('[data-contact-panel]')];
+  const activateContactPanel = mode => {
+    contactTabs.forEach(tab => {
+      const active = tab.dataset.contactTab === mode;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-selected', String(active));
+    });
+    contactPanels.forEach(panel => {
+      const active = panel.dataset.contactPanel === mode;
+      panel.classList.toggle('active', active);
+      panel.hidden = !active;
+      if (active && mode === 'call') {
+        const frame = panel.querySelector('iframe[data-src]');
+        if (frame && !frame.getAttribute('src')) frame.setAttribute('src', frame.dataset.src);
+      }
+    });
+  };
+  contactTabs.forEach(tab => tab.addEventListener('click', () => activateContactPanel(tab.dataset.contactTab)));
+  const requestedContactPanel = new URLSearchParams(window.location.search).get('contact');
+  if (requestedContactPanel === 'call' || requestedContactPanel === 'text') activateContactPanel(requestedContactPanel);
+  document.querySelectorAll('[data-contact-target]').forEach(link => {
+    link.addEventListener('click', () => activateContactPanel(link.dataset.contactTarget || 'text'));
+  });
+
   requestAnimationFrame(() => document.body.classList.add('page-ready'));
 
   const revealItems = [...document.querySelectorAll('.reveal')];
