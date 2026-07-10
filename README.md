@@ -1,23 +1,15 @@
-# GMACOVEI Website Redesign
+# GMACOVEI website
 
-This package is a static website. No build process is required.
+Static website for gmacovei.com.
 
-## Included
-- Responsive homepage
-- Shared dark/light theme
-- Blog index and three article pages
-- Privacy Policy and Terms & Conditions
-- Contact form connected to the existing Formspree endpoint
-- SEO metadata, sitemap, robots.txt, CNAME, and social preview image
+## Structure
+- `index.html` — homepage
+- `assets/css/site.css` — shared styling and light/dark themes
+- `assets/js/site.js` — navigation, theme toggle, FAQ accordion, filters, and reveal animations
+- `images/` — site imagery
+- `blog/` — blog index and article pages
+- `privacy-policy/` and `terms-conditions/` — legal pages
 
-## Deploy
-Upload the contents of this folder to the root of the GitHub Pages repository or hosting provider. Keep the directory structure unchanged.
+Light mode is the default. A visitor's explicit theme selection is saved in local storage.
 
-## Main files
-- `index.html`
-- `assets/css/site.css`
-- `assets/js/site.js`
-- `images/`
-- `blog/`
-- `privacy-policy/`
-- `terms-conditions/`
+No build process is required. Upload the folder contents to the web root.

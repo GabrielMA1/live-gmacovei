@@ -1,29 +1,28 @@
 (() => {
   const root = document.documentElement;
   const themeToggle = document.querySelector('[data-theme-toggle]');
-  const savedTheme = localStorage.getItem('gmacovei-theme');
-  const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  const initial = savedTheme || preferred;
-  root.dataset.theme = initial;
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem('gmacovei-theme'); } catch (error) {}
+  root.dataset.theme = savedTheme || 'light';
 
   const syncThemeIcon = () => {
     if (!themeToggle) return;
-    const light = root.dataset.theme === 'light';
-    themeToggle.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
-    themeToggle.innerHTML = `<i class="fa-solid ${light ? 'fa-moon' : 'fa-sun'}" aria-hidden="true"></i>`;
+    const isLight = root.dataset.theme === 'light';
+    themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+    themeToggle.innerHTML = `<i class="fa-solid ${isLight ? 'fa-moon' : 'fa-sun'}" aria-hidden="true"></i>`;
   };
   syncThemeIcon();
 
   themeToggle?.addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
-    localStorage.setItem('gmacovei-theme', root.dataset.theme);
+    try { localStorage.setItem('gmacovei-theme', root.dataset.theme); } catch (error) {}
     syncThemeIcon();
   });
 
   const header = document.querySelector('.site-header');
-  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 12);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 10);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
 
   const menuButton = document.querySelector('[data-menu-toggle]');
   const mobilePanel = document.querySelector('[data-mobile-panel]');
@@ -42,12 +41,12 @@
   faqItems.forEach(item => {
     const button = item.querySelector('.faq-question');
     button?.addEventListener('click', () => {
-      const willOpen = !item.classList.contains('open');
+      const shouldOpen = !item.classList.contains('open');
       faqItems.forEach(other => {
         other.classList.remove('open');
         other.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
       });
-      if (willOpen) {
+      if (shouldOpen) {
         item.classList.add('open');
         button.setAttribute('aria-expanded', 'true');
       }
@@ -56,12 +55,13 @@
 
   requestAnimationFrame(() => document.body.classList.add('page-ready'));
 
-  const revealItems = document.querySelectorAll('.reveal');
-  revealItems.forEach((el, index) => {
+  const revealItems = [...document.querySelectorAll('.reveal')];
+  revealItems.forEach(el => {
     const siblings = [...(el.parentElement?.children || [])].filter(child => child.classList?.contains('reveal'));
     const position = Math.max(0, siblings.indexOf(el));
-    el.style.setProperty('--reveal-delay', `${Math.min(position * 85, 255)}ms`);
+    el.style.setProperty('--reveal-delay', `${Math.min(position * 80, 240)}ms`);
   });
+
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -70,7 +70,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px' });
     revealItems.forEach(el => observer.observe(el));
   } else {
     revealItems.forEach(el => el.classList.add('visible'));
@@ -86,5 +86,5 @@
     });
   });
 
-  document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+  document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 })();
