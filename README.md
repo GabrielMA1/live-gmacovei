@@ -3,7 +3,7 @@
 Static production-ready website files. Deploy the contents of this folder at the domain root.
 
 ## Purpose
-This site presents Gabriel Macovei as a digital strategist and AI expert, including his professional introduction, focus areas, selected outcomes, insights, contact paths, and a prominent route to RielArt for business services and project booking.
+This site presents Gabriel Macovei as a digital strategist and AI expert, including his professional introduction, focus areas, typical outcomes, insights, contact paths, and a prominent route to RielArt for business services and project inquiries.
 
 ## Key files
 - `index.html` — personal homepage
@@ -17,3 +17,9 @@ Legacy `/blog/` URLs contain static redirect pages and canonical links to their 
 
 ## Notes
 - Light mode is the default; the visitor's dark-mode preference is stored locally.
+
+## July 2026 audit update
+- Standardized terminology around Services, Pricing, Process, Insights, and Contact.
+- Reframed outcome language so it does not imply unsupported case-study proof.
+- Added a GitHub Pages-compatible redirect for the stale direct-mail article URL.
+- Corrected the privacy-page description and retained gmacovei.com as a personal founder hub rather than a paid-traffic landing page.
