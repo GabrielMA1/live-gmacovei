@@ -54,22 +54,6 @@
   setHeaderState();
   window.addEventListener('scroll', setHeaderState, { passive: true });
 
-  const path = location.pathname.replace(/\/index\.html$/, '/');
-  document.querySelectorAll('.nav a, .mobile-menu nav > a:not(.btn)').forEach(link => {
-    try {
-      const url = new URL(link.href, location.origin);
-      const linkPath = url.pathname.replace(/\/index\.html$/, '/');
-      let active = false;
-      if (url.hash) {
-        active = path === '/' && location.hash === url.hash;
-      } else {
-        active = linkPath === '/' ? path === '/' && !location.hash : path.startsWith(linkPath);
-      }
-      if (active) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    } catch (_) {}
-  });
-
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const glass = document.querySelectorAll('.card,.ra-simple-card,.ra-proof-card,.process-step,.timeline-item,.aside-card,.portal-callout,.pricing-assurance-card,.subscription-card,.contact-panel,.contact-intro,.article-card,.person-card,.management-service-card,.service-card,.metric-card');
     glass.forEach(el => {
@@ -86,21 +70,77 @@
   }
 })();
 
-/* GMACOVEI one-page navigation polish */
+/* GMACOVEI navigation state — one source of truth. */
 (() => {
-  const sectionLinks = [...document.querySelectorAll('.nav a[href*="#"], .mobile-menu a[href*="#"]')];
-  const samePath = (href) => { try { const u=new URL(href,location.href); return u.origin===location.origin && (u.pathname==='/' || u.pathname===location.pathname); } catch(_) { return false; } };
-  const localLinks = sectionLinks.filter(a => samePath(a.href));
-  const sections = localLinks.map(a => { try { return document.querySelector(new URL(a.href,location.href).hash); } catch(_) { return null; } }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    const observer = new IntersectionObserver(entries => {
-      const visible = entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-      if (!visible) return;
-      localLinks.forEach(a => {
-        const active = new URL(a.href,location.href).hash === `#${visible.target.id}`;
-        if (active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
-      });
-    }, {rootMargin:'-35% 0px -55% 0px',threshold:[0,.1,.25,.5]});
-    sections.forEach(s=>observer.observe(s));
+  const links = [...document.querySelectorAll('.nav a, .mobile-menu nav > a:not(.btn)')];
+  if (!links.length) return;
+
+  const normalizedPath = location.pathname.replace(/\/index\.html$/, '/').replace(/\/{2,}/g, '/');
+  const keyFromLink = (link) => {
+    try {
+      const url = new URL(link.href, location.href);
+      if (url.hash) return url.hash.slice(1);
+      return url.pathname === '/' ? 'home' : '';
+    } catch (_) { return ''; }
+  };
+  const setActive = (key) => {
+    links.forEach(link => {
+      const active = keyFromLink(link) === key;
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  // Articles and the blog index belong to Insights. Legal and 404 pages have no active item.
+  if (normalizedPath === '/blog' || normalizedPath.startsWith('/blog/')) {
+    setActive('writing');
+    return;
   }
+  if (normalizedPath !== '/') {
+    setActive('');
+    return;
+  }
+
+  const sectionOrder = ['home', 'work', 'about', 'writing', 'contact'];
+  const sections = sectionOrder
+    .map(key => ({ key, element: document.getElementById(key) }))
+    .filter(item => item.element);
+  const header = document.querySelector('.site-header');
+  let ticking = false;
+
+  const updateFromScroll = () => {
+    ticking = false;
+    const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    const marker = window.scrollY + headerBottom + 72;
+    let activeKey = sections[0]?.key || 'home';
+
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
+      activeKey = sections.at(-1)?.key || activeKey;
+    } else {
+      for (const section of sections) {
+        if (section.element.offsetTop <= marker) activeKey = section.key;
+        else break;
+      }
+    }
+    setActive(activeKey);
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(updateFromScroll);
+  };
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      const key = keyFromLink(link);
+      if (key) setActive(key);
+    });
+  });
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate, { passive: true });
+  window.addEventListener('hashchange', requestUpdate);
+  requestUpdate();
+  setTimeout(requestUpdate, 120);
 })();

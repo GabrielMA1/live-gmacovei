@@ -21,3 +21,10 @@ Upload the files at the root of this folder to the existing GitHub Pages reposit
 - Restored the original hero, What I Do, About, Business Work, and Contact section structures.
 - Applied the current RielArt floating liquid-glass navigation, theme behavior, mobile menu, and motion.
 - Kept the homepage hero headline to three deliberate lines on desktop.
+
+
+## Final navigation cleanup
+- Restored the original navigation items: Home, About, Work, Insights, and Contact.
+- Removed the RielArt call-to-action from desktop and mobile navigation.
+- Replaced conflicting active-link scripts with one deterministic scroll-aware implementation.
+- Removed the four-item proof strip below the homepage hero.

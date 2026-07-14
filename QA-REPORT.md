@@ -17,3 +17,10 @@
 - No horizontal overflow detected at the tested widths.
 - Theme toggle and mobile menu interactions passed.
 - No page-level JavaScript errors were detected during browser QA.
+
+
+## Navigation revision verification
+- [x] No RielArt CTA remains in the navigation.
+- [x] Navigation contains Home, About, Work, Insights, and Contact.
+- [x] Homepage proof strip removed.
+- [x] Single active-navigation controller used across homepage, blog, legal, and 404 pages.
