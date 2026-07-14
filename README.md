@@ -1,28 +1,17 @@
-# gmacovei.com — personal website
+# gmacovei.com — 2027 RielArt Design Edition
 
-Static production-ready website files. Deploy the contents of this folder at the domain root.
+This package applies the final RielArt 2027 liquid-glass visual system to the Gabriel Macovei personal website while preserving the personal-site positioning, content, portrait, calls to action, legal pages, and legacy insight redirects.
 
-## Purpose
-This site presents Gabriel Macovei as a digital strategist and AI expert, including his professional introduction, focus areas, typical outcomes, insights, contact paths, and a prominent route to RielArt for business services and project inquiries.
+## Deployment
 
-## Key files
-- `index.html` — personal homepage
-- `assets/css/site.css` — shared responsive styling and light/dark themes
-- `assets/js/site.js` — theme toggle, mobile navigation, FAQ accordion, filters, and reveal behavior
-- `images/` — portrait, social image, favicon, and RielArt preview assets
-- `privacy-policy/`, `terms-conditions/` — legal pages
+Upload the files at the root of this folder to the existing GitHub Pages repository. Keep `CNAME` unchanged.
 
-## Redirects
-Legacy `/blog/` URLs contain static redirect pages and canonical links to their RielArt destinations. Configure true 301 redirects at the CDN or hosting layer using `_redirects` where supported.
+## Included
 
-## Notes
-- Light mode is the default; the visitor's dark-mode preference is stored locally.
-
-## July 2026 audit update
-- Standardized terminology around Services, Pricing, Process, Insights, and Contact.
-- Reframed outcome language so it does not imply unsupported case-study proof.
-- Added a GitHub Pages-compatible redirect for the stale direct-mail article URL.
-- Corrected the privacy-page description and retained gmacovei.com as a personal founder hub rather than a paid-traffic landing page.
-
-## Alignment update
-This package includes the final spacing and alignment pass for the homepage hero actions, portrait presentation, and four-item proof strip across desktop, tablet, and mobile layouts.
+- Responsive liquid-glass navigation, sections, cards, footer, and theme system
+- Portrait-led homepage hero
+- Existing four-value proof row
+- Personal About, RielArt, experience, industries, outcomes, insights, FAQ, and contact content
+- Light and dark modes
+- Mobile navigation and reduced-motion support
+- Existing SEO metadata, redirects, sitemap, robots, privacy policy, and terms
