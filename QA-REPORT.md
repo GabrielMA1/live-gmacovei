@@ -24,3 +24,9 @@
 - [x] Navigation contains Home, About, Work, Insights, and Contact.
 - [x] Homepage proof strip removed.
 - [x] Single active-navigation controller used across homepage, blog, legal, and 404 pages.
+
+## Final light-mode footer correction
+- Replaced the washed-out translucent gray footer card with a high-contrast light glass surface.
+- Strengthened brand, heading, body, and link contrast in light mode.
+- Preserved a dedicated dark glass treatment for dark mode.
+- Kept the large background wordmark subtle and readable.
