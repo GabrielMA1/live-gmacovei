@@ -1,22 +1,19 @@
-# GMACOVEI 2027 QA Report
+# GMACOVEI Website — Final Hybrid QA
 
-Reviewed: July 14, 2026
+## Requested design direction
 
-## Passed checks
+- Restored the original personal-site hero composition.
+- Hero headline is deliberately split into three lines and verified at 320, 390, 768, 1080, and 1600 px widths.
+- Restored the original **What I Do**, **About Gabriel**, **Business Work**, and **Contact** section structures.
+- Applied the RielArt floating liquid-glass navbar, light/dark theme behavior, scroll shadow, hover states, mobile menu, and reduced-motion handling.
 
-- 8 HTML pages checked
-- All pages have one H1, a title, and a meta description
-- No duplicate HTML IDs
-- No missing local images, stylesheets, scripts, or internal page targets
-- Sitemap targets resolve to included pages
-- JavaScript syntax passes `node --check`
-- CSS opening and closing braces are balanced
-- No horizontal overflow at 1440 px, 900 px, or 390 px viewport widths
-- Theme toggle changes between light and dark modes
-- Mobile navigation opens and closes, including Escape-key handling
-- FAQ accordion interaction works
-- Portrait and all four proof cards remain visible across desktop, tablet, and mobile layouts
+## Automated checks completed
 
-## Deployment structure
-
-Files are packaged at the ZIP root for direct replacement in the existing GitHub Pages repository. The `CNAME` file remains set for gmacovei.com.
+- 8 HTML pages parsed successfully.
+- Internal file and image references checked.
+- CSS parsed without syntax errors.
+- JavaScript passed `node --check`.
+- Browser QA completed at 320, 390, 768, 1080, and 1600 px.
+- No horizontal overflow detected at the tested widths.
+- Theme toggle and mobile menu interactions passed.
+- No page-level JavaScript errors were detected during browser QA.

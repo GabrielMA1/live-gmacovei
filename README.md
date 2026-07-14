@@ -15,3 +15,9 @@ Upload the files at the root of this folder to the existing GitHub Pages reposit
 - Light and dark modes
 - Mobile navigation and reduced-motion support
 - Existing SEO metadata, redirects, sitemap, robots, privacy policy, and terms
+
+
+## Final hybrid update
+- Restored the original hero, What I Do, About, Business Work, and Contact section structures.
+- Applied the current RielArt floating liquid-glass navigation, theme behavior, mobile menu, and motion.
+- Kept the homepage hero headline to three deliberate lines on desktop.

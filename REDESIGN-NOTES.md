@@ -16,3 +16,7 @@ This build applies the final RielArt 2027 liquid-glass design system to gmacovei
 ## Content preserved
 
 The homepage's original visible wording is preserved, apart from capitalization of the displayed name and the year being populated automatically. Existing images, domain settings, metadata, legal content, redirects, and contact links remain in place.
+
+## Final hybrid revision
+
+The final package keeps the original personal-site presentation for the hero, services, about, RielArt business feature, and contact area. The navigation now follows the current RielArt floating liquid-glass design and interaction system across every page.

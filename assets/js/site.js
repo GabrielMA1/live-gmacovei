@@ -57,9 +57,16 @@
   const path = location.pathname.replace(/\/index\.html$/, '/');
   document.querySelectorAll('.nav a, .mobile-menu nav > a:not(.btn)').forEach(link => {
     try {
-      const linkPath = new URL(link.href, location.origin).pathname.replace(/\/index\.html$/, '/');
-      const active = linkPath === '/' ? path === '/' : path.startsWith(linkPath);
+      const url = new URL(link.href, location.origin);
+      const linkPath = url.pathname.replace(/\/index\.html$/, '/');
+      let active = false;
+      if (url.hash) {
+        active = path === '/' && location.hash === url.hash;
+      } else {
+        active = linkPath === '/' ? path === '/' && !location.hash : path.startsWith(linkPath);
+      }
       if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     } catch (_) {}
   });
 
