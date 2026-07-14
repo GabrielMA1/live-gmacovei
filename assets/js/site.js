@@ -35,7 +35,6 @@
   document.querySelectorAll('[data-open-call]').forEach(a=>a.addEventListener('click',e=>{const tab=document.querySelector('[data-contact-tab="call"]');if(tab){e.preventDefault();activateTab(tab);document.querySelector('#contact')?.scrollIntoView({behavior:'smooth'});}}));
   try { if (location.hash === '#schedule' || new URLSearchParams(location.search).get('mode') === 'call') { const callTab=document.querySelector('[data-contact-tab="call"]'); if(callTab){ activateTab(callTab); setTimeout(()=>document.querySelector('#contact')?.scrollIntoView({behavior:'smooth'}),80); } } } catch(e) {}
 
-
   const observer='IntersectionObserver' in window?new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12}):null;
   document.querySelectorAll('.reveal').forEach(el=>observer?observer.observe(el):el.classList.add('visible'));
   document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
@@ -45,56 +44,4 @@
   filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilter()}));search?.addEventListener('input',applyFilter);
   document.querySelectorAll('[data-contact-form]').forEach(form=>form.addEventListener('submit',()=>{const b=form.querySelector('[type="submit"]');if(b){b.disabled=true;b.dataset.original=b.innerHTML;b.textContent='Sending…'}}));
   window.addEventListener('pageshow',()=>document.querySelectorAll('[data-contact-form] [type="submit"]').forEach(b=>{b.disabled=false;if(b.dataset.original)b.innerHTML=b.dataset.original}));
-})();
-
-/* RielArt 2027 interaction polish */
-(() => {
-  const header = document.querySelector('.site-header');
-  const setHeaderState = () => header?.classList.toggle('is-scrolled', window.scrollY > 18);
-  setHeaderState();
-  window.addEventListener('scroll', setHeaderState, { passive: true });
-
-  const path = location.pathname.replace(/\/index\.html$/, '/');
-  document.querySelectorAll('.nav a, .mobile-menu nav > a:not(.btn)').forEach(link => {
-    try {
-      const linkPath = new URL(link.href, location.origin).pathname.replace(/\/index\.html$/, '/');
-      const active = linkPath === '/' ? path === '/' : path.startsWith(linkPath);
-      if (active) link.setAttribute('aria-current', 'page');
-    } catch (_) {}
-  });
-
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const glass = document.querySelectorAll('.card,.ra-simple-card,.ra-proof-card,.process-step,.timeline-item,.aside-card,.portal-callout,.pricing-assurance-card,.subscription-card,.contact-panel,.contact-intro,.article-card,.person-card,.management-service-card,.service-card,.metric-card');
-    glass.forEach(el => {
-      el.addEventListener('pointermove', event => {
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty('--mx', `${((event.clientX - rect.left) / rect.width) * 100}%`);
-        el.style.setProperty('--my', `${((event.clientY - rect.top) / rect.height) * 100}%`);
-      }, { passive: true });
-      el.addEventListener('pointerleave', () => {
-        el.style.setProperty('--mx', '50%');
-        el.style.setProperty('--my', '50%');
-      }, { passive: true });
-    });
-  }
-})();
-
-
-/* GMACOVEI one-page navigation polish */
-(() => {
-  const sectionLinks = [...document.querySelectorAll('.nav a[href*="#"], .mobile-menu a[href*="#"]')];
-  const samePath = (href) => { try { const u=new URL(href,location.href); return u.origin===location.origin && (u.pathname==='/' || u.pathname===location.pathname); } catch(_) { return false; } };
-  const localLinks = sectionLinks.filter(a => samePath(a.href));
-  const sections = localLinks.map(a => { try { return document.querySelector(new URL(a.href,location.href).hash); } catch(_) { return null; } }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    const observer = new IntersectionObserver(entries => {
-      const visible = entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-      if (!visible) return;
-      localLinks.forEach(a => {
-        const active = new URL(a.href,location.href).hash === `#${visible.target.id}`;
-        if (active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
-      });
-    }, {rootMargin:'-35% 0px -55% 0px',threshold:[0,.1,.25,.5]});
-    sections.forEach(s=>observer.observe(s));
-  }
 })();
