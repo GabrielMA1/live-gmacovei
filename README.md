@@ -4,7 +4,7 @@ This package applies the final RielArt 2027 liquid-glass visual system to the Ga
 
 ## Deployment
 
-Upload the files at the root of this folder to the existing GitHub Pages repository. Keep `CNAME` unchanged.
+Upload the files at the root of this folder to the existing GitHub Pages repository. Keep `CNAME` unchanged. GitHub Pages does not process the Netlify/Cloudflare-style `_redirects` file, so configure permanent legacy-URL redirects at the hosting or CDN layer if they are needed.
 
 ## Included
 
@@ -14,7 +14,7 @@ Upload the files at the root of this folder to the existing GitHub Pages reposit
 - Personal About, RielArt, experience, industries, outcomes, insights, FAQ, and contact content
 - Light and dark modes
 - Mobile navigation and reduced-motion support
-- Existing SEO metadata, redirects, sitemap, robots, privacy policy, and terms
+- Existing SEO metadata, static redirect fallbacks, sitemap, robots, privacy policy, and terms
 
 
 ## Final hybrid update

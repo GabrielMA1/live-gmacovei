@@ -5,27 +5,42 @@
   try { saved = localStorage.getItem('theme'); } catch (e) {}
   root.dataset.theme = saved === 'dark' ? 'dark' : 'light';
   root.classList.add('js');
-  document.querySelectorAll('[data-theme-toggle]').forEach(btn => btn.addEventListener('click', () => {
+  const themeToggles = [...document.querySelectorAll('[data-theme-toggle]')];
+  const syncThemeToggles = () => {
+    const dark = root.dataset.theme === 'dark';
+    themeToggles.forEach(btn => {
+      btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+      btn.setAttribute('aria-pressed', String(dark));
+    });
+  };
+  syncThemeToggles();
+  themeToggles.forEach(btn => btn.addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
     try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
-    btn.setAttribute('aria-label', root.dataset.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    syncThemeToggles();
   }));
 
   const menuBtn = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-mobile-menu]');
+  if (menuBtn && menu) {
+    if (!menu.id) menu.id = 'site-mobile-menu';
+    menuBtn.setAttribute('aria-controls', menu.id);
+  }
   let lastFocused;
   const focusable = () => menu ? [...menu.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])')] : [];
-  function closeMenu(){ if(!menuBtn||!menu)return; menu.classList.remove('open');document.body.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');menu.setAttribute('aria-hidden','true'); if(lastFocused)lastFocused.focus(); }
-  function openMenu(){ if(!menuBtn||!menu)return; lastFocused=document.activeElement;menu.classList.add('open');document.body.classList.add('menu-open');menuBtn.setAttribute('aria-expanded','true');menu.setAttribute('aria-hidden','false');focusable()[0]?.focus(); }
+  function closeMenu(){ if(!menuBtn||!menu)return; menu.classList.remove('open');document.body.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');menuBtn.setAttribute('aria-label','Open navigation');menu.setAttribute('aria-hidden','true'); if(lastFocused)lastFocused.focus(); }
+  function openMenu(){ if(!menuBtn||!menu)return; lastFocused=document.activeElement;menu.classList.add('open');document.body.classList.add('menu-open');menuBtn.setAttribute('aria-expanded','true');menuBtn.setAttribute('aria-label','Close navigation');menu.setAttribute('aria-hidden','false');focusable()[0]?.focus(); }
   menuBtn?.addEventListener('click',()=>menu?.classList.contains('open')?closeMenu():openMenu());
   menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu?.classList.contains('open'))closeMenu(); if(e.key==='Tab'&&menu?.classList.contains('open')){const f=focusable();if(!f.length)return;const first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
 
+  const setFaqAnswerState = (item, open) => item?.querySelector('.faq-answer')?.setAttribute('aria-hidden', String(!open));
   document.querySelectorAll('[data-faq-question]').forEach(btn => {
+    setFaqAnswerState(btn.closest('.faq-item'), btn.getAttribute('aria-expanded') === 'true');
     btn.addEventListener('click', () => {
       const item=btn.closest('.faq-item'), open=btn.getAttribute('aria-expanded')==='true';
-      document.querySelectorAll('.faq-item.open').forEach(other=>{if(other!==item){other.classList.remove('open');other.querySelector('[data-faq-question]')?.setAttribute('aria-expanded','false')}});
-      item.classList.toggle('open',!open);btn.setAttribute('aria-expanded',String(!open));
+      document.querySelectorAll('.faq-item.open').forEach(other=>{if(other!==item){other.classList.remove('open');other.querySelector('[data-faq-question]')?.setAttribute('aria-expanded','false');setFaqAnswerState(other,false)}});
+      item.classList.toggle('open',!open);btn.setAttribute('aria-expanded',String(!open));setFaqAnswerState(item,!open);
     });
   });
 

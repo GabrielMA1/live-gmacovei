@@ -1056,7 +1056,7 @@ h1,h2,h3 { letter-spacing: -.045em; }
   linear-gradient(145deg,color-mix(in srgb,var(--surface-strong) 88%,transparent),color-mix(in srgb,var(--surface) 68%,transparent));
   box-shadow:var(--shadow); backdrop-filter:blur(30px) saturate(130%); overflow:hidden; }
 .page-hero .container::after { content:""; position:absolute; width:360px; height:360px; right:-140px; bottom:-220px; border:1px solid var(--line-strong); border-radius:50%; box-shadow:0 0 0 38px color-mix(in srgb,var(--accent) 4%,transparent),0 0 0 78px color-mix(in srgb,var(--accent) 3%,transparent); }
-.breadcrumbs { margin-bottom:44px; color:var(--muted-2); font-size:.74rem; font-weight:700; }
+.breadcrumbs { margin-bottom:44px; color:var(--muted); font-size:.74rem; font-weight:700; }
 .breadcrumbs a:hover { color:var(--accent); }
 .page-hero .lead { max-width:840px; margin-bottom:0; }
 
@@ -1127,7 +1127,7 @@ h1,h2,h3 { letter-spacing: -.045em; }
 
 @media (max-width: 1080px) {
   .nav { display:none; }
-  .menu-toggle { display:inline-flex; }
+  .menu-toggle { display:inline-grid; }
   .ra-hero-grid { grid-template-columns:1fr; }
   .ra-system-visual { justify-self:stretch; width:min(100%,720px); transform:none; }
   .ra-proof-grid { grid-template-columns:repeat(2,1fr); }
@@ -1639,7 +1639,7 @@ h1,h2,h3 { letter-spacing: -.045em; }
 }
 @media(max-width:760px){
   .site-header{top:8px;margin-top:8px;width:calc(100% - 16px);border-radius:18px}.header-inner{min-height:60px;padding:8px}.site-header .brand span{display:none}
-  .gm-hero{padding:66px 0 76px}.gm-display{font-size:clamp(1.78rem,8vw,3.4rem);line-height:.96;letter-spacing:-.052em}.gm-display .hero-line{white-space:nowrap}
+  .gm-hero{padding:66px 0 76px}.gm-display{font-size:clamp(1.78rem,8vw,3.4rem);line-height:.96;letter-spacing:-.052em}.gm-display .hero-line{white-space:normal}
   .gm-hero .btn-row{display:grid;grid-template-columns:1fr}.gm-hero .btn{width:100%}
   .gm-portrait-wrap{justify-self:center}.gm-portrait-ring{width:min(300px,76vw)}
   .gm-proof-grid{grid-template-columns:1fr}.gm-proof-grid>div,.gm-proof-grid>div:nth-child(2){border-right:0;border-bottom:1px solid var(--line)}.gm-proof-grid>div:last-child{border-bottom:0}
@@ -1656,7 +1656,7 @@ h1,h2,h3 { letter-spacing: -.045em; }
    Keep the liquid-glass shell while restoring the original GMACOVEI link set
    and restrained active-state behavior.
    ========================================================================== */
-@media (min-width:981px){
+@media (min-width:1081px){
   .site-header .header-inner{
     display:grid;
     grid-template-columns:minmax(220px,1fr) auto minmax(220px,1fr);
